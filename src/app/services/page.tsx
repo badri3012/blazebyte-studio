@@ -4,8 +4,10 @@ import { ServiceExplorer } from "@/components/ServiceExplorer";
 
 export const metadata = {
   title: "Digital Marketing Services | BlazeByte Studio",
-  description: "End-to-end digital marketing ecosystem designed for scale and revenue growth.",
+  description:
+    "Explore BlazeByte Studio's digital marketing services including social media marketing, Meta Ads, Google Ads, SEO, lead generation, local marketing, and AI-powered marketing.",
 };
+
 
 export default function ServicesPage() {
   return (
@@ -14,9 +16,10 @@ export default function ServicesPage() {
       <section className="py-20 lg:py-32 bg-background relative overflow-hidden border-b border-border">
         <div className="container mx-auto max-w-7xl px-4 relative z-10 text-center">
           <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 tracking-tight">Stop Posting.<br/><span className="text-primary">Start Growing.</span></h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            We don&apos;t just run ads or make pretty posts. We build a comprehensive digital marketing ecosystem designed to generate qualified leads and drive revenue.
-          </p>
+         <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+  Digital marketing services for businesses looking to generate qualified leads,
+  increase visibility, and turn marketing into measurable revenue.
+</p>
           <Button size="lg" variant="primary" asChild>
             <Link href="/order-project">Get a Growth Plan</Link>
           </Button>
