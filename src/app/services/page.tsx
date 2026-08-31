@@ -26,49 +26,49 @@ export default function ServicesPage() {
       {/* CORE ECOSYSTEM: Editorial Split Layout */}
       <section className="py-24 lg:py-32" id="social-media">
         <div className="container mx-auto max-w-7xl px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <div className="sticky top-32">
-              <div className="inline-block px-3 py-1 bg-primary/10 text-primary font-mono text-sm uppercase tracking-wider rounded-full mb-6">Organic Growth</div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            <div className="relative lg:sticky lg:top-32 z-10 bg-background/80 backdrop-blur-sm lg:backdrop-blur-none lg:bg-transparent pb-4 lg:pb-0">
+              <div className="inline-block px-3 py-1 bg-primary/10 text-primary font-mono text-sm uppercase tracking-wider rounded-full mb-6 mt-2 lg:mt-0">Organic Growth</div>
               <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6">Social Media & Content</h2>
-              <p className="text-lg text-muted-foreground mb-8">
+              <p className="text-lg text-muted-foreground mb-4 lg:mb-8">
                 Your social media profile is your modern storefront. We transform it into an authoritative brand asset with strategic content calendars, high-end visual design, and engaging video production.
               </p>
             </div>
             
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4 md:gap-6">
               {/* Service Items formatted editorially */}
-              <div className="p-8 border border-border bg-card rounded-2xl group hover:border-primary/50 transition-colors">
-                <h3 className="font-heading text-2xl font-bold mb-3 flex justify-between items-center">
-                  Social Media Strategy
-                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+              <div className="p-6 md:p-8 border border-border bg-card rounded-2xl group hover:border-primary/50 transition-colors">
+                <h3 className="font-heading text-xl md:text-2xl font-bold mb-3 md:mb-4 flex justify-between items-start gap-4">
+                  <span className="leading-tight">Social Media Strategy</span>
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5 md:mt-1">→</span>
                 </h3>
-                <p className="text-muted-foreground">Architecting your brand voice, aesthetic, and overarching roadmap to capture attention in a saturated market.</p>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">Architecting your brand voice, aesthetic, and overarching roadmap to capture attention in a saturated market.</p>
               </div>
 
-              <div className="p-8 border border-border bg-card rounded-2xl group hover:border-primary/50 transition-colors">
-                <h3 className="font-heading text-2xl font-bold mb-3 flex justify-between items-center">
-                  Social Media Management
-                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+              <div className="p-6 md:p-8 border border-border bg-card rounded-2xl group hover:border-primary/50 transition-colors">
+                <h3 className="font-heading text-xl md:text-2xl font-bold mb-3 md:mb-4 flex justify-between items-start gap-4">
+                  <span className="leading-tight">Social Media Management</span>
+                  <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 mt-0.5 md:mt-1">→</span>
                 </h3>
-                <p className="text-muted-foreground">End-to-end execution. We handle posting, community engagement, and channel growth while you run your business.</p>
+                <p className="text-sm md:text-base text-muted-foreground leading-relaxed">End-to-end execution. We handle posting, community engagement, and channel growth while you run your business.</p>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="p-6 bg-muted/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2">Content Creation</h4>
-                  <p className="text-sm text-muted-foreground">High-converting statics, carousels, and engaging copywriting.</p>
+              <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mt-2 md:mt-0">
+                <div className="p-5 md:p-6 bg-muted/30 rounded-xl">
+                  <h4 className="font-bold text-base md:text-lg mb-2">Content Creation</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">High-converting statics, carousels, and engaging copywriting.</p>
                 </div>
-                <div className="p-6 bg-muted/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2">Reels / Short-form Video</h4>
-                  <p className="text-sm text-muted-foreground">Scripting, directing, and editing native video content.</p>
+                <div className="p-5 md:p-6 bg-muted/30 rounded-xl">
+                  <h4 className="font-bold text-base md:text-lg mb-2">Reels / Short-form Video</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">Scripting, directing, and editing native video content.</p>
                 </div>
-                <div className="p-6 bg-muted/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2">Graphic Design</h4>
-                  <p className="text-sm text-muted-foreground">Premium, brand-aligned visual assets.</p>
+                <div className="p-5 md:p-6 bg-muted/30 rounded-xl">
+                  <h4 className="font-bold text-base md:text-lg mb-2">Graphic Design</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">Premium, brand-aligned visual assets.</p>
                 </div>
-                <div className="p-6 bg-muted/30 rounded-xl">
-                  <h4 className="font-bold text-lg mb-2">Brand Strategy</h4>
-                  <p className="text-sm text-muted-foreground">Positioning and messaging frameworks.</p>
+                <div className="p-5 md:p-6 bg-muted/30 rounded-xl">
+                  <h4 className="font-bold text-base md:text-lg mb-2">Brand Strategy</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">Positioning and messaging frameworks.</p>
                 </div>
               </div>
             </div>
