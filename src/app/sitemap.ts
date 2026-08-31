@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://blazebytestudio.com' // Replace with actual domain
+  const baseUrl = 'https://https://www.blazebyte.shop' // Replace with actual domain
   
   return [
     {

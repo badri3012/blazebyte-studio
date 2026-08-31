@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "BlazeByte Studio | Premium Digital Marketing Agency",
     description: "Don't Just Get Seen. Get Results. We build comprehensive digital marketing ecosystems designed to generate qualified leads and drive revenue.",
-    url: 'https://blazebytestudio.com',
+    url: 'https://https://www.blazebyte.shop',
     siteName: 'BlazeByte Studio',
     locale: 'en_US',
     type: 'website',
