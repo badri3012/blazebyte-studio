@@ -1,54 +1,138 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #F97316;
-  --color-primary-foreground: #FFFFFF;
-  --color-primary-hover: #EA580C;
+  /* PARENT BRAND NEUTRAL */
+  --color-brand-black: #0B0D10;
+  --color-brand-charcoal: #17191C;
+  --color-brand-bone: #F4F1EA;
+  --color-brand-silver: #B8BDC7;
+  --color-brand-white: #FFFFFF;
 
-  --color-background: #ffffff;
-  --color-foreground: #171717;
+  --color-background: #0B0D10;
+  --color-foreground: #F4F1EA;
 
-  --color-muted: #f5f5f5;
-  --color-muted-foreground: #737373;
+  --color-card: #17191C;
+  --color-card-foreground: #F4F1EA;
+  --color-border: #242832;
 
-  --color-card: #ffffff;
-  --color-card-foreground: #171717;
-  --color-border: #e5e5e5;
+  /* WORLD 01: WEB (Architecture / Editorial / Digital Craft) */
+  --color-web-bone: #F4F1EA;
+  --color-web-charcoal: #17191C;
+  --color-web-cobalt: #3457FF;
+  --color-web-[#EBE7DF]: #EBE7DF;
+
+  /* WORLD 02: MARKETING (Creative Strategy / Culture / Growth) */
+  --color-mkt-burgundy: #3B0A11;
+  --color-mkt-burgundy-dark: #28050B;
+  --color-mkt-cream: #FAF6F0;
+  --color-mkt-cream-dark: #F4ECE1;
+  --color-mkt-orange: #D9531E;
+
+  /* WORLD 03: AI (Enterprise Systems / Automation / Engineering) */
+  --color-ai-slate: #161B22;
+  --color-ai-slate-dark: #0D1117;
+  --color-ai-white: #F9F9F8;
+  --color-ai-forest: #1B4D3E;
+  --color-ai-copper: #C86D51;
+
+  /* WORLD 04: APPS (Product Engineering / Software Studio) */
+  --color-app-white: #FFFFFF;
+  --color-app-graphite: #191C21;
+  --color-app-blue: #2563EB;
+  --color-app-coral: #EF4444;
+  --color-app-grey: #F3F4F6;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
-
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-background: #050505;
-    --color-foreground: #fafafa;
-    
-    --color-muted: #171717;
-    --color-muted-foreground: #a3a3a3;
-    
-    --color-card: #0a0a0a;
-    --color-card-foreground: #fafafa;
-    --color-border: #262626;
-  }
+  --font-serif: Georgia, Cambria, "Times New Roman", Times, serif;
 }
 
 @layer base {
   * {
     border-color: var(--color-border);
   }
+  
+  html {
+    color-scheme: dark;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    overflow-x: hidden;
   }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
+    font-weight: 700;
   }
+}
+
+/* DRAMATIC TYPOGRAPHY SCALES FOR EDITORIAL HUMAN DESIGN */
+.text-display-giant {
+  font-size: clamp(3rem, 10vw, 10rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.text-display-huge {
+  font-size: clamp(2.5rem, 7vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+/* SWISS ARCHITECTURAL GRID LINES & EDITORIAL BORDERS */
+.border-grid-architectural {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(23, 25, 28, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(23, 25, 28, 0.08) 1px, transparent 1px);
+}
+
+.border-grid-marketing {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(217, 83, 30, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 83, 30, 0.08) 1px, transparent 1px);
+}
+
+.border-grid-ai {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(27, 77, 62, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 77, 62, 0.12) 1px, transparent 1px);
+}
+
+.border-grid-apps {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(37, 99, 235, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(37, 99, 235, 0.08) 1px, transparent 1px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0D10;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #242832;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3457FF;
+}
+
+/* Selection Color */
+::selection {
+  background-color: #3457FF;
+  color: #F4F1EA;
 }

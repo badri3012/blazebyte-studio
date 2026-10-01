@@ -1,48 +1,72 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cn } from "@/lib/utils"
+"use client";
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  asChild?: boolean
-  variant?: "default" | "outline" | "ghost" | "link" | "primary"
-  size?: "default" | "sm" | "lg" | "icon"
+import React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { useSound } from "@/context/sound-context";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    
-    // Manual variant classes to keep it simple without cva dependency
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "indigo" | "teal" | "blue" | "default" | "link";
+  size?: "sm" | "md" | "lg" | "default";
+  asChild?: boolean;
+  children: React.ReactNode;
+}
+
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant = "primary", size = "md", asChild = false, children, onClick, onMouseEnter, ...props }, ref) => {
+    const { playHover, playClick } = useSound();
+
+    const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+      playHover();
+      if (onMouseEnter) onMouseEnter(e);
+    };
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      playClick();
+      if (onClick) onClick(e);
+    };
+
+    const baseStyles =
+      "inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ivory/50 disabled:opacity-50 disabled:pointer-events-none rounded cursor-pointer select-none";
+
+    const normalizedVariant = variant === "default" ? "primary" : variant === "link" ? "ghost" : variant;
+    const normalizedSize = size === "default" ? "md" : size;
+
     const variants = {
-      default: "bg-neutral-900 text-white hover:bg-neutral-800 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-200",
-      primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
-      outline: "border border-neutral-200 bg-transparent hover:bg-neutral-100 dark:border-neutral-800 dark:hover:bg-neutral-800",
-      ghost: "hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
-      link: "text-primary underline-offset-4 hover:underline",
-    }
-    
+      primary: "bg-ivory text-graphite hover:bg-ivory-muted shadow-sm hover:shadow-ivory/10",
+      secondary: "bg-graphite-card text-ivory border border-graphite-border hover:border-ivory/30 hover:bg-soft-grey/30",
+      outline: "border border-graphite-border text-ivory-muted hover:text-ivory hover:border-ivory/40 hover:bg-graphite-card",
+      ghost: "text-ivory-muted hover:text-ivory hover:bg-graphite-card/60",
+      indigo: "bg-indigo-accent text-ivory hover:bg-indigo-light shadow-sm glow-indigo",
+      teal: "bg-teal-accent text-graphite font-semibold hover:bg-teal-light shadow-sm glow-teal",
+      blue: "bg-blue-accent text-graphite font-semibold hover:bg-blue-light shadow-sm glow-blue",
+    };
+
     const sizes = {
-      default: "h-11 px-6 py-2",
-      sm: "h-9 px-4 text-sm",
-      lg: "h-14 px-8 text-lg",
-      icon: "h-11 w-11",
-    }
+      sm: "text-xs px-3 py-1.5 gap-1.5",
+      md: "text-sm px-4 py-2 gap-2",
+      lg: "text-base px-6 py-3 gap-2.5 font-semibold",
+    };
+
+    const Comp = asChild ? Slot : "button";
 
     return (
       <Comp
-        className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50",
-          variants[variant],
-          sizes[size],
-          className
-        )}
         ref={ref}
+        className={cn(baseStyles, variants[normalizedVariant], sizes[normalizedSize], className)}
+        onMouseEnter={handleMouseEnter}
+        onClick={handleClick}
         {...props}
-      />
-    )
+      >
+        {children}
+      </Comp>
+    );
   }
-)
-Button.displayName = "Button"
+);
 
-export { Button }
+Button.displayName = "Button";

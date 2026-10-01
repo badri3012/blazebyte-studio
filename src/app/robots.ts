@@ -1,14 +1,12 @@
-import { MetadataRoute } from 'next'
- 
-export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://www.blazebyte.shop' // Replace with actual domain
+import { MetadataRoute } from "next";
 
+export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/admin/', '/api/'],
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "/admin/"],
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
-  }
+    sitemap: "https://blazebyte.store/sitemap.xml",
+  };
 }

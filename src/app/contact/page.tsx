@@ -1,85 +1,104 @@
-import { LeadForm } from "@/components/forms/lead-form";
-import { siteConfig } from "@/config/site";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+"use client";
 
-export const metadata = {
-  title: "Contact BlazeByte Studio | Let's Grow Your Business",
-  description: "Contact BlazeByte Studio for Digital Marketing. Tell us what you're trying to achieve, and we'll help you figure out the right marketing approach.",
-};
+import React, { Suspense } from "react";
+import { ProjectConfigurator } from "@/components/forms/project-configurator";
+import { SITE_CONFIG } from "@/config/studio-data";
+import { Mail, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
 
-export default async function ContactPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ package?: string }>;
-}) {
-  const { package: selectedPackage } = await searchParams;
-
+function ContactContent() {
   return (
-    <div className="flex flex-col min-h-screen pt-20">
-      <section className="py-20 lg:py-28 bg-background relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-        <div className="container mx-auto max-w-7xl px-4 relative z-10">
-          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24">
-            
-            {/* Left Column: Context & Contact Info */}
-            <div className="lg:col-span-5 flex flex-col justify-between">
-              <div>
-                <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6 leading-tight">
-                  Let&apos;s Grow Your <span className="text-primary">Business</span>
-                </h1>
-                <p className="text-lg text-muted-foreground mb-12">
-                  Tell us what you&apos;re trying to achieve, and we&apos;ll help you figure out the right marketing approach.
-                </p>
-                
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-1 text-xl">{siteConfig.brandName}</h3>
-                    <p className="text-primary mb-4">{siteConfig.businessType}</p>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Email</h3>
-                    <a href={`mailto:${siteConfig.email}`} className="text-muted-foreground hover:text-primary transition-colors cursor-pointer">{siteConfig.email}</a>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Location</h3>
-                    <p className="text-muted-foreground">{siteConfig.location}</p>
-                  </div>
-                  
-                  <div>
-                    <h3 className="font-semibold text-foreground mb-2">Founder</h3>
-                    <p className="text-muted-foreground">{siteConfig.founderName}</p>
-                  </div>
-                  
-                  {siteConfig.phone && (
-                    <div>
-                      <h3 className="font-semibold text-foreground mb-2">Phone / WhatsApp</h3>
-                      <p className="text-muted-foreground">{siteConfig.phone}</p>
-                    </div>
-                  )}
+    <div className="space-y-16 pb-20">
+      {/* HEADER */}
+      <section className="relative py-14 overflow-hidden border-b border-graphite-border">
+        <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-graphite-card border border-graphite-border text-xs font-mono text-indigo-light">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-accent" />
+            <span>INTERACTIVE PROJECT CONFIGURATOR</span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl font-heading font-extrabold text-ivory uppercase tracking-tight">
+            START A PROJECT BUILD
+          </h1>
+
+          <p className="text-base sm:text-lg text-muted-grey max-w-2xl">
+            Configure your project scope, select budget parameters, and receive an architectural proposal or direct WhatsApp fast-track response.
+          </p>
+        </div>
+      </section>
+
+      {/* CONFIGURATOR & DIRECT DETAILS GRID */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div className="lg:col-span-2">
+            <ProjectConfigurator />
+          </div>
+
+          {/* Direct Studio Channels Box */}
+          <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-graphite-card border border-graphite-border space-y-6">
+              <h3 className="text-lg font-heading font-bold text-ivory border-b border-graphite-border pb-3">
+                Direct Communication
+              </h3>
+
+              <div className="space-y-4 text-xs font-mono">
+                <div>
+                  <div className="text-muted-grey mb-1">Email Channel</div>
+                  <a
+                    href={`mailto:${SITE_CONFIG.contact.email}`}
+                    className="text-ivory font-semibold hover:text-indigo-light transition-colors flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4 text-indigo-accent" />
+                    <span>{SITE_CONFIG.contact.email}</span>
+                  </a>
                 </div>
-                
-                <div className="mt-12 flex flex-col gap-4">
-                  <Button size="lg" asChild className="w-full sm:w-auto h-12 text-base shadow-lg shadow-primary/20">
-                    <Link href="/order-project">Order a Project Instead</Link>
-                  </Button>
+
+                <div>
+                  <div className="text-muted-grey mb-1">WhatsApp Fast-Track</div>
+                  <a
+                    href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(SITE_CONFIG.contact.whatsappMessage)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ivory font-semibold hover:text-teal-light transition-colors flex items-center gap-2"
+                  >
+                    <MessageSquare className="w-4 h-4 text-teal-accent" />
+                    <span>{SITE_CONFIG.contact.whatsapp}</span>
+                  </a>
                 </div>
+
+                <div>
+                  <div className="text-muted-grey mb-1">Official Domain</div>
+                  <div className="text-ivory font-semibold">{SITE_CONFIG.domain}</div>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-graphite-border text-[11px] text-muted-grey space-y-2">
+                <div className="flex items-center gap-2 text-emerald-400 font-mono">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>Response SLA: &lt; 12 Hours</span>
+                </div>
+                <p>We review every proposal to evaluate scope, timeline feasibility, and technical stack fit.</p>
               </div>
             </div>
 
-            {/* Right Column: The Form */}
-            <div className="lg:col-span-7">
-              <div className="bg-card border border-border rounded-2xl p-6 sm:p-10 shadow-xl shadow-black/5">
-                <h2 className="font-heading text-2xl font-bold mb-8">Send an Enquiry</h2>
-                <LeadForm defaultPackage={selectedPackage} source="contact" />
-              </div>
+            <div className="p-6 rounded-2xl bg-graphite-card border border-graphite-border text-xs text-muted-grey space-y-2">
+              <div className="font-heading font-bold text-ivory text-sm">Security & Confidentiality</div>
+              <p className="leading-relaxed">
+                All client specifications, project concepts, and submitted business details remain strictly confidential under non-disclosure standards.
+              </p>
             </div>
-            
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-ivory font-mono">Loading Configurator...</div>}>
+      <ContactContent />
+    </Suspense>
   );
 }
