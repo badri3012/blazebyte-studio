@@ -3,8 +3,8 @@ import { PACKAGE_AUTHORITATIVE_PRICES } from "@/lib/invoice-store";
 import { dbGetInvoiceById, dbSaveInvoice } from "@/lib/supabase-db";
 
 function logRazorpayStartupCheck() {
-  const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const keyId = (process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "").trim().split(",")[0];
+  const keySecret = (process.env.RAZORPAY_KEY_SECRET || "").trim().split(",")[0];
 
   const hasKeyId = Boolean(keyId);
   const hasKeySecret = Boolean(keySecret);
@@ -72,8 +72,8 @@ export async function POST(request: Request) {
     const advanceAmountInRupees = targetInvoice.advanceRequired;
     const amountInPaise = Math.round(advanceAmountInRupees * 100);
 
-    const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    const keyId = (process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "").trim().split(",")[0];
+    const keySecret = (process.env.RAZORPAY_KEY_SECRET || "").trim().split(",")[0];
 
     if (!keyId || !keySecret) {
       console.error("[RAZORPAY CONFIG ERROR] Missing Razorpay Key ID or Secret.", {
@@ -156,3 +156,4 @@ export async function POST(request: Request) {
     );
   }
 }
+
