@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
 import { WEB_SERVICE_CONFIG, CASE_STUDIES, PROCESS_STAGES } from "@/config/studio-data";
+import Image from "next/image";
 import { WebArchitectureDiagram } from "@/components/visualizers/web-architecture-diagram";
 import { EditorialProjectCard } from "@/components/ui/human-cards";
 import { WorldLoader } from "@/components/ui/world-loaders";
@@ -58,11 +59,7 @@ export default function WebServicePage() {
 
             {/* ART-DIRECTED ARCHITECTURAL IMAGE COMPOSITION */}
             <div className="border-2 border-[#17191C] bg-[#F4F1EA] p-4 shadow-[12px_12px_0px_#17191C]">
-              <img
-                src="/images/web-hero.jpg"
-                alt="Web Development Architectural Composition"
-                className="w-full h-auto object-cover border border-[#17191C]/30"
-              />
+              <Image src="/images/web-hero.jpg" alt="Web Development Architectural Composition" width={800} height={600} priority className="w-full h-auto object-cover border border-[#17191C]/30" />
               <div className="pt-3 font-mono text-[10px] text-[#17191C]/60 flex items-center justify-between">
                 <span>ART DIRECTION: ARCHITECTURAL DIGITAL CRAFT</span>
                 <span className="text-[#3457FF] font-bold">BLAZEBYTE / WEB</span>
@@ -147,3 +144,4 @@ export default function WebServicePage() {
     </div>
   );
 }
+

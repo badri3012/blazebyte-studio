@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -122,7 +122,7 @@ export const Footer = () => {
               </li>
               <li>
                 <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(SITE_CONFIG.contact.whatsappMessage)}`}
+                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(SITE_CONFIG.contact.whatsappMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-grey hover:text-ivory transition-colors flex items-center gap-2"
@@ -194,3 +194,5 @@ export const Footer = () => {
     </footer>
   );
 };
+
+

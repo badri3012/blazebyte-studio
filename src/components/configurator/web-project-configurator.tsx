@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -799,7 +799,7 @@ export const WebProjectConfigurator = () => {
               </Link>
             )}
             <a
-              href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(getWhatsAppSummary())}`}
+              href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(getWhatsAppSummary())}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={playSuccess}
@@ -1226,3 +1226,5 @@ export const WebProjectConfigurator = () => {
     </div>
   );
 };
+
+

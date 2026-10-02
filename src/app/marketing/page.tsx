@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { MARKETING_SERVICE_CONFIG, CASE_STUDIES } from "@/config/studio-data";
 import { WorldLoader } from "@/components/ui/world-loaders";
 import { useSound } from "@/context/sound-context";
@@ -623,3 +624,4 @@ export default function MarketingServicePage() {
     </div>
   );
 }
+

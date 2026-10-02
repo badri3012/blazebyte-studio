@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { SoundProvider } from "@/context/sound-context";
 import { ServiceTransitionProvider } from "@/context/service-transition-context";
 import { SITE_CONFIG } from "@/config/studio-data";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -24,8 +25,8 @@ const baseUrl = `https://${SITE_CONFIG.domain}`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: `BlazeByte Studio â€” Software Development Company in Coimbatore | Web, Marketing, AI & Apps`,
-    template: `%s | BlazeByte Studio â€” Coimbatore`,
+    default: "Web, Marketing, AI & Apps | BlazeByte Studio",
+    template: "%s | BlazeByte Studio",
   },
   description:
     "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu. We build high-performance websites, digital marketing systems, AI automation, and custom apps for Indian businesses and international clients.",
@@ -61,27 +62,17 @@ export const metadata: Metadata = {
   publisher: SITE_CONFIG.name,
   category: "Software Development",
   openGraph: {
-    title: "BlazeByte Studio â€” Software Development Company in Coimbatore",
-    description:
-      "Premium web development, digital marketing, AI automation & custom software for Indian businesses. Based in Coimbatore, Tamil Nadu.",
+    title: "Web, Marketing, AI & Apps | BlazeByte Studio",
+    description: "Premium web development, digital marketing, AI automation & custom software for Indian businesses. Based in Coimbatore, Tamil Nadu.",
     url: baseUrl,
     siteName: "BlazeByte Studio",
     locale: "en_IN",
     type: "website",
-    images: [
-      {
-        url: `${baseUrl}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: "BlazeByte Studio â€” Software Development Company in Coimbatore",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlazeByte Studio â€” Coimbatore Software & Digital Studio",
-    description:
-      "Web development, digital marketing, AI & custom apps â€” premium studio based in Coimbatore, Tamil Nadu.",
+    title: "Web, Marketing, AI & Apps | BlazeByte Studio",
+    description: "Web development, digital marketing, AI & custom apps. Premium studio based in Coimbatore, Tamil Nadu.",
     images: [`${baseUrl}/og-image.jpg`],
   },
   robots: {
@@ -121,22 +112,7 @@ const organizationSchema = {
         telephone: SITE_CONFIG.contact.whatsapp,
         contactType: "customer service",
         email: SITE_CONFIG.contact.email,
-        availableLanguage: ["English", "Tamil"],
-        contactOption: "TollFree",
-        hoursAvailable: {
-          "@type": "OpeningHoursSpecification",
-          dayOfWeek: [
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-            "Sunday",
-          ],
-          opens: "00:00",
-          closes: "23:59",
-        },
+        availableLanguage: ["English", "Tamil"]
       },
       address: {
         "@type": "PostalAddress",
@@ -144,11 +120,6 @@ const organizationSchema = {
         addressRegion: "Tamil Nadu",
         addressCountry: "IN",
       },
-      sameAs: [
-        SITE_CONFIG.socials.linkedin,
-        SITE_CONFIG.socials.twitter,
-        SITE_CONFIG.socials.github,
-      ],
       description:
         "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu, specialising in web development, digital marketing, AI automation, and custom application development.",
     },
@@ -162,43 +133,13 @@ const organizationSchema = {
       email: SITE_CONFIG.contact.email,
       address: {
         "@type": "PostalAddress",
-        streetAddress: "",
         addressLocality: "Coimbatore",
         addressRegion: "Tamil Nadu",
-        postalCode: "641001",
         addressCountry: "IN",
-      },
-      geo: {
-        "@type": "GeoCoordinates",
-        latitude: "11.0168",
-        longitude: "76.9558",
-      },
-      openingHoursSpecification: {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "00:00",
-        closes: "23:59",
-      },
-      priceRange: "â‚¹â‚¹â‚¹",
-      servesCuisine: [],
-      hasMap: `https://www.google.com/maps/search/BlazeByte+Studio+Coimbatore`,
-      areaServed: [
-        { "@type": "City", name: "Coimbatore" },
-        { "@type": "State", name: "Tamil Nadu" },
-        { "@type": "Country", name: "India" },
-      ],
-    },
+      }
+    }
   ],
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -214,8 +155,29 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <Script id="google-tag-manager" strategy="afterInteractive">
+            {`
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${process.env.NEXT_PUBLIC_GTM_ID}');
+            `}
+          </Script>
+        )}
       </head>
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background selection:bg-indigo-accent/30 selection:text-ivory">
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+            />
+          </noscript>
+        )}
         <SoundProvider>
           <ServiceTransitionProvider>
             <Navbar />
@@ -229,3 +191,6 @@ export default function RootLayout({
     </html>
   );
 }
+
+
+

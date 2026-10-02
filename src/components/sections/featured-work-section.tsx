@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { projectsConfig } from "@/config/projects";
 import { Button } from "@/components/ui/button";
 
@@ -58,7 +58,7 @@ export function FeaturedWorkSection() {
                   </p>
                 </div>
                 <Button variant="link" className="text-foreground hover:text-primary p-0 h-auto font-medium md:shrink-0 justify-start" asChild>
-                  <Link href={`/case-studies`}>
+                  <Link href={`/work`}>
                     View Project <span className="ml-2">→</span>
                   </Link>
                 </Button>
@@ -70,3 +70,4 @@ export function FeaturedWorkSection() {
     </section>
   );
 }
+

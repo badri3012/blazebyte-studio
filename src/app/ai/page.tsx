@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import Link from "next/link";
 import { AI_SERVICE_CONFIG } from "@/config/studio-data";
+import Image from "next/image";
 import { SystemSpecificationPanel } from "@/components/ui/human-cards";
 import { WorldLoader } from "@/components/ui/world-loaders";
 import { useSound } from "@/context/sound-context";
@@ -109,3 +110,4 @@ export default function AIServicePage() {
     </div>
   );
 }
+

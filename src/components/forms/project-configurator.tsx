@@ -83,7 +83,7 @@ export const ProjectConfigurator = () => {
   const handleWhatsAppDispatch = () => {
     playSuccess();
     const msg = encodeURIComponent(generateWhatsAppMessage());
-    window.open(`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${msg}`, "_blank");
   };
 
   const handleSubmitForm = async (e: React.FormEvent) => {
@@ -368,3 +368,5 @@ export const ProjectConfigurator = () => {
     </div>
   );
 };
+
+

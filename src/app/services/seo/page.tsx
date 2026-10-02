@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export const metadata = {
@@ -39,7 +39,7 @@ export default function SEOPage() {
               </Button>
 
               <Button size="lg" variant="outline" asChild>
-                <Link href="/case-studies">View Case Studies</Link>
+                <Link href="/work">View Case Studies</Link>
               </Button>
             </div>
           </div>
@@ -413,3 +413,5 @@ export default function SEOPage() {
     </div>
   );
 }
+
+

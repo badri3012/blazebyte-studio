@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -517,7 +517,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
               )}
               {SITE_CONFIG.contact.whatsapp ? (
                 <a
-                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(getWhatsAppSummary())}`}
+                  href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(getWhatsAppSummary())}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={playSuccess}
@@ -546,3 +546,5 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
     </div>
   );
 }
+
+

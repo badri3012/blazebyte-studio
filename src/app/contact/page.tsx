@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { Suspense } from "react";
 import { ProjectConfigurator } from "@/components/forms/project-configurator";
@@ -32,7 +32,7 @@ function ContactContent() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
           <div className="lg:col-span-2">
-            <ProjectConfigurator />
+            <Suspense fallback={<div className="p-8 text-center font-mono">Loading...</div>}><ProjectConfigurator /></Suspense>
           </div>
 
           {/* Direct Studio Channels Box */}
@@ -57,7 +57,7 @@ function ContactContent() {
                 <div>
                   <div className="text-muted-grey mb-1">WhatsApp Fast-Track</div>
                   <a
-                    href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace("+", "")}?text=${encodeURIComponent(SITE_CONFIG.contact.whatsappMessage)}`}
+                    href={`https://wa.me/${SITE_CONFIG.contact.whatsapp.replace(/[^0-9]/g, "")}?text=${encodeURIComponent(SITE_CONFIG.contact.whatsappMessage)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-ivory font-semibold hover:text-teal-light transition-colors flex items-center gap-2"
@@ -95,10 +95,4 @@ function ContactContent() {
   );
 }
 
-export default function ContactPage() {
-  return (
-    <Suspense fallback={<div className="p-12 text-center text-ivory font-mono">Loading Configurator...</div>}>
-      <ContactContent />
-    </Suspense>
-  );
-}
+export default function ContactPage() { return <ContactContent />; }

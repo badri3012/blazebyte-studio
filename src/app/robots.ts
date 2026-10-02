@@ -7,6 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: "https://blazebyte.shop/sitemap.xml",
+    sitemap: "https://www.blazebyte.shop/sitemap.xml",
   };
 }
+
