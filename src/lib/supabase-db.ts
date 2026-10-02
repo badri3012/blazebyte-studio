@@ -48,7 +48,7 @@ export async function dbSaveLead(leadData: Partial<Lead> & { full_name: string; 
 
   try {
     const payload = {
-      id: leadData.id,
+      id: leadData.id || `LD-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
       full_name: leadData.full_name,
       name: leadData.full_name,
       email: leadData.email,
@@ -281,3 +281,4 @@ export async function dbUpdateInvoicePayment(
     throw err;
   }
 }
+
