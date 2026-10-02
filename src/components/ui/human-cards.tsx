@@ -36,9 +36,9 @@ export const EditorialProjectCard: React.FC<EditorialProjectCardProps> = ({ stud
 
           {/* 02 — PACKAGE TITLE (INTENTIONAL MULTI-LINE EDITORIAL TYPOGRAPHY) */}
           <div className="min-w-0">
-            <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-heading font-black tracking-tight text-[#17191C] uppercase leading-[0.95] space-y-0.5">
+            <h3 className="text-[clamp(1.2rem,2.5vw,2.25rem)] font-heading font-black tracking-tight text-[#17191C] uppercase leading-[0.95] space-y-0.5">
               {titleWords.map((word, idx) => (
-                <span key={idx} className="block break-words [overflow-wrap:break-word] font-black">
+                <span key={idx} className="block break-normal hyphens-auto font-black">
                   {word}
                 </span>
               ))}
@@ -165,9 +165,9 @@ export const MagazineGrowthPanel: React.FC<MagazineGrowthPanelProps> = ({ pkg, m
 
           {/* 02 — PACKAGE TITLE (MULTI-LINE STACKED EDITORIAL TYPOGRAPHY) */}
           <div className="min-w-0">
-            <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-heading font-black text-[#101014] uppercase leading-[0.95] space-y-0.5">
+            <h3 className="text-[clamp(1.2rem,2.5vw,2.25rem)] font-heading font-black text-[#101014] uppercase leading-[0.95] space-y-0.5">
               {titleWords.map((word, idx) => (
-                <span key={idx} className="block break-words [overflow-wrap:break-word] font-black">
+                <span key={idx} className="block break-normal hyphens-auto font-black">
                   {word}
                 </span>
               ))}
@@ -268,9 +268,9 @@ export const SystemSpecificationPanel: React.FC<SystemSpecificationPanelProps> =
 
           {/* 02 — PACKAGE TITLE (MULTI-LINE STACKED EDITORIAL TYPOGRAPHY) */}
           <div className="min-w-0">
-            <h3 className="text-[clamp(1.5rem,3.8vw,2.25rem)] font-heading font-bold text-[#F9F9F8] uppercase leading-[0.95] space-y-0.5">
+            <h3 className="text-[clamp(1.1rem,2.5vw,2rem)] font-heading font-bold text-[#F9F9F8] uppercase leading-[0.95] space-y-0.5">
               {titleWords.map((word, idx) => (
-                <span key={idx} className="block break-words [overflow-wrap:break-word]">
+                <span key={idx} className="block break-normal hyphens-auto">
                   {word}
                 </span>
               ))}
@@ -349,9 +349,9 @@ export const ProductInterfacePanel: React.FC<ProductInterfacePanelProps> = ({ pk
       <div className="space-y-6 pt-4 min-w-0 flex-1 flex flex-col">
         {/* 02 — PACKAGE TITLE (MULTI-LINE STACKED EDITORIAL TYPOGRAPHY) */}
         <div className="min-w-0">
-          <h3 className="text-[clamp(1.75rem,4vw,2.5rem)] font-heading font-black text-[#191C21] uppercase leading-[0.95] space-y-0.5">
+          <h3 className="text-[clamp(1.2rem,2.5vw,2.25rem)] font-heading font-black text-[#191C21] uppercase leading-[0.95] space-y-0.5">
             {titleWords.map((word, idx) => (
-              <span key={idx} className="block break-words [overflow-wrap:break-word] font-black">
+              <span key={idx} className="block break-normal hyphens-auto font-black">
                 {word}
               </span>
             ))}
@@ -411,3 +411,5 @@ export const ProductInterfacePanel: React.FC<ProductInterfacePanelProps> = ({ pk
     </div>
   );
 };
+
+

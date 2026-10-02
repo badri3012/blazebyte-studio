@@ -72,7 +72,7 @@
 
 /* DRAMATIC TYPOGRAPHY SCALES FOR EDITORIAL HUMAN DESIGN */
 .text-display-giant {
-  font-size: clamp(3rem, 10vw, 10rem);
+  font-size: clamp(2.5rem, 8vw, 8rem);
   line-height: 0.9;
   letter-spacing: -0.05em;
 }
@@ -136,3 +136,4 @@
   background-color: #3457FF;
   color: #F4F1EA;
 }
+
