@@ -129,11 +129,10 @@ export async function POST(request: Request) {
         },
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("[API WEB ORDER ERROR]", error);
-    return NextResponse.json(
-      { error: "Internal server processing error." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "DB Error: " + (error.message || String(error)) }, { status: 500 });
   }
 }
+
+
