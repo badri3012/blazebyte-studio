@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   description: "Explore our selected case studies, web builds, and digital transformation projects delivered by BlazeByte Studio.",
   alternates: {
     canonical: "https://www.blazebyte.shop/work"
+  },
+  openGraph: {
+    title: "Website & Software Portfolio | BlazeByte Studio",
+    description: "Explore our selected case studies, web builds, and digital transformation projects delivered by BlazeByte Studio.",
+    url: "https://www.blazebyte.shop/work",
   }
 };
 

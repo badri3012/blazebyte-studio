@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import React from "react";
+import Image from "next/image";
 import { ServiceGateway } from "@/components/service-portals/service-gateway";
 import { AsymmetricPortfolio } from "@/components/portfolio/asymmetric-portfolio";
 import { StudioPositioning } from "@/components/studio/studio-positioning";
@@ -19,3 +20,4 @@ export default function HomePage() {
     </main>
   );
 }
+

@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "@/context/sound-context";
 import { useServiceTransition, ServiceType } from "@/context/service-transition-context";
@@ -68,11 +69,7 @@ export const ServiceGateway = () => {
           transition={{ duration: 0.5 }}
           className="absolute inset-0 pointer-events-none z-0"
         >
-          <img
-            src={currentMeta.previewImage}
-            alt={hoveredPortal}
-            className="w-full h-full object-cover filter grayscale contrast-125 blur-sm"
-          />
+          <Image src={currentMeta.previewImage} alt={hoveredPortal} fill={true} priority={true} className="w-full h-full object-cover filter grayscale contrast-125 blur-sm" />
         </motion.div>
       </AnimatePresence>
 
@@ -168,3 +165,5 @@ export const ServiceGateway = () => {
     </div>
   );
 };
+
+

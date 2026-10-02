@@ -186,10 +186,7 @@ export default function MarketingServicePage() {
       <section className="relative py-20 lg:py-28 overflow-hidden border-b-2 border-[#242044] bg-gradient-to-b from-[#101014] via-[#17172B] to-[#17172B]">
         {/* Background Haze Overlay */}
         <div className="absolute inset-0 opacity-20 pointer-events-none z-0">
-          <img
-            src="/images/indigo-anime-marketing-hero.jpg"
-            alt="Indigo Anime Studio Background"
-            className="w-full h-full object-cover filter blur-sm contrast-125"
+          <Image src="/images/indigo-anime-marketing-hero.jpg" alt="Indigo Anime Studio Background" width={1200} height={800} priority className="w-full h-full object-cover filter blur-sm contrast-125"
           />
         </div>
 
@@ -387,10 +384,7 @@ export default function MarketingServicePage() {
             >
               {/* Image Frame */}
               <div className="lg:col-span-6 relative group overflow-hidden border border-[#FF5C68]">
-                <img
-                  src={ch.image}
-                  alt={ch.headline}
-                  className="w-full h-80 object-cover filter contrast-[1.05] group-hover:scale-1.05 transition-transform duration-500"
+                <Image src={ch.image} alt={ch.headline} width={600} height={400} className="w-full h-80 object-cover filter contrast-[1.05] group-hover:scale-1.05 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17172B]/80 via-transparent to-transparent" />
                 <div className="absolute top-3 left-3 font-mono text-[10px] bg-[#17172B] text-[#F6F1E8] px-2.5 py-1 border border-[#FF5C68] font-bold">
@@ -475,10 +469,7 @@ export default function MarketingServicePage() {
               >
                 {/* Anime Artwork Fragment Header */}
                 <div className="relative h-28 -mx-7 -mt-7 mb-4 overflow-hidden bg-[#101014]">
-                  <img
-                    src={animeFragment}
-                    alt={pkg.name}
-                    className="w-full h-full object-cover filter contrast-125 opacity-90 group-hover:scale-1.08 transition-transform duration-500"
+                  <Image src={animeFragment} alt={pkg.name} width={400} height={200} className="w-full h-full object-cover filter contrast-125 opacity-90 group-hover:scale-1.08 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#F6F1E8] via-transparent to-transparent" />
                   <div className="absolute top-2 right-2 bg-[#FF5C68] text-[#F6F1E8] font-mono text-[9px] px-2 py-0.5 font-bold">
@@ -588,10 +579,7 @@ export default function MarketingServicePage() {
         <div className="relative border-2 border-[#FF5C68] bg-[#101014] p-8 lg:p-14 overflow-hidden shadow-[0_20px_60px_rgba(255,92,104,0.3)]">
           {/* Background Anime Scene Layer */}
           <div className="absolute inset-0 opacity-30 pointer-events-none">
-            <img
-              src="/images/indigo-anime-marketing-hero.jpg"
-              alt="Final Indigo Anime Studio CTA Scene"
-              className="w-full h-full object-cover filter contrast-125"
+            <Image src="/images/indigo-anime-marketing-hero.jpg" alt="Final Indigo Anime Studio CTA Scene" width={1200} height={800} priority className="w-full h-full object-cover filter contrast-125"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[#101014] via-[#101014]/90 to-transparent" />
           </div>
@@ -624,4 +612,5 @@ export default function MarketingServicePage() {
     </div>
   );
 }
+
 
