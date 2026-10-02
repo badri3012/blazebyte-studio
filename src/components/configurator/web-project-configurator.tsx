@@ -80,10 +80,10 @@ export const WebProjectConfigurator = () => {
   const [needsImageSourcing, setNeedsImageSourcing] = useState<boolean>(true);
 
   // --- Step 06: Budget ---
-  const [budgetRange, setBudgetRange] = useState<string>("₹15K – ₹30K");
+  const [budgetRange, setBudgetRange] = useState<string>("â‚¹15K â€“ â‚¹30K");
 
   // --- Step 07: Timeline ---
-  const [launchTimeline, setLaunchTimeline] = useState<string>("2–4 WEEKS");
+  const [launchTimeline, setLaunchTimeline] = useState<string>("2â€“4 WEEKS");
   const [specificDate, setSpecificDate] = useState<string>("");
 
   // --- Step 08: References ---
@@ -113,10 +113,10 @@ export const WebProjectConfigurator = () => {
   useEffect(() => {
     const pkgParam = searchParams.get("package");
     if (pkgParam) {
-      if (pkgParam.includes("starter")) setBudgetRange("₹5K – ₹15K");
-      else if (pkgParam.includes("growth")) setBudgetRange("₹15K – ₹30K");
-      else if (pkgParam.includes("professional")) setBudgetRange("₹30K – ₹50K");
-      else if (pkgParam.includes("scale")) setBudgetRange("₹50K – ₹1L");
+      if (pkgParam.includes("starter")) setBudgetRange("â‚¹5K â€“ â‚¹15K");
+      else if (pkgParam.includes("growth")) setBudgetRange("â‚¹15K â€“ â‚¹30K");
+      else if (pkgParam.includes("professional")) setBudgetRange("â‚¹30K â€“ â‚¹50K");
+      else if (pkgParam.includes("scale")) setBudgetRange("â‚¹50K â€“ â‚¹1L");
       setScreen("configurator");
     }
   }, [searchParams]);
@@ -136,15 +136,15 @@ export const WebProjectConfigurator = () => {
 
   // 10 Editorial Project Type Modules
   const projectTypeOptions = [
-    { id: "Business Website", code: "01", label: "BUSINESS WEBSITE", desc: "Corporate, local business, or firm.", icon: Building2, preview: "CMS • Leads • SEO" },
-    { id: "Landing Page", code: "02", label: "LANDING PAGE", desc: "High-conversion product or campaign page.", icon: Rocket, preview: "CRO • Funnels • Ads" },
-    { id: "Portfolio", code: "03", label: "PORTFOLIO", desc: "Personal brand, studio, or creator showcase.", icon: Globe, preview: "Editorial • Visual" },
-    { id: "Restaurant / Food", code: "04", label: "RESTAURANT", desc: "Dining, cloud kitchen, or menu engine.", icon: Utensils, preview: "Menu • WhatsApp • Booking" },
-    { id: "E-Commerce", code: "05", label: "E-COMMERCE", desc: "Product catalog, cart, and payment gateway.", icon: ShoppingBag, preview: "Razorpay • Catalog" },
-    { id: "Booking Website", code: "06", label: "BOOKING", desc: "Appointments, reservations, or events.", icon: Calendar, preview: "Schedule • Deposits" },
-    { id: "Education", code: "07", label: "EDUCATION", desc: "Academy, course catalog, or institute portal.", icon: GraduationCap, preview: "Programs • Enquiries" },
-    { id: "Startup", code: "08", label: "STARTUP", desc: "SaaS product launch or tech portal.", icon: Zap, preview: "Interactive • Analytics" },
-    { id: "Custom Platform", code: "09", label: "CUSTOM PLATFORM", desc: "Bespoke digital software system.", icon: Layers, preview: "API • Database • RBAC" },
+    { id: "Business Website", code: "01", label: "BUSINESS WEBSITE", desc: "Corporate, local business, or firm.", icon: Building2, preview: "CMS â€¢ Leads â€¢ SEO" },
+    { id: "Landing Page", code: "02", label: "LANDING PAGE", desc: "High-conversion product or campaign page.", icon: Rocket, preview: "CRO â€¢ Funnels â€¢ Ads" },
+    { id: "Portfolio", code: "03", label: "PORTFOLIO", desc: "Personal brand, studio, or creator showcase.", icon: Globe, preview: "Editorial â€¢ Visual" },
+    { id: "Restaurant / Food", code: "04", label: "RESTAURANT", desc: "Dining, cloud kitchen, or menu engine.", icon: Utensils, preview: "Menu â€¢ WhatsApp â€¢ Booking" },
+    { id: "E-Commerce", code: "05", label: "E-COMMERCE", desc: "Product catalog, cart, and payment gateway.", icon: ShoppingBag, preview: "Razorpay â€¢ Catalog" },
+    { id: "Booking Website", code: "06", label: "BOOKING", desc: "Appointments, reservations, or events.", icon: Calendar, preview: "Schedule â€¢ Deposits" },
+    { id: "Education", code: "07", label: "EDUCATION", desc: "Academy, course catalog, or institute portal.", icon: GraduationCap, preview: "Programs â€¢ Enquiries" },
+    { id: "Startup", code: "08", label: "STARTUP", desc: "SaaS product launch or tech portal.", icon: Zap, preview: "Interactive â€¢ Analytics" },
+    { id: "Custom Platform", code: "09", label: "CUSTOM PLATFORM", desc: "Bespoke digital software system.", icon: Layers, preview: "API â€¢ Database â€¢ RBAC" },
     { id: "Other", code: "10", label: "OTHER", desc: "Custom bespoke digital concept.", icon: HelpCircle, preview: "Custom Blueprint" },
   ];
 
@@ -193,15 +193,15 @@ export const WebProjectConfigurator = () => {
   };
 
   const budgetOptions = [
-    { range: "₹5K – ₹15K", desc: "Starter websites / landing pages" },
-    { range: "₹15K – ₹30K", desc: "Professional business websites" },
-    { range: "₹30K – ₹50K", desc: "Premium custom websites" },
-    { range: "₹50K – ₹1L", desc: "Advanced websites / web systems" },
-    { range: "₹1L+", desc: "Complex platforms / e-commerce / custom platforms" },
+    { range: "â‚¹5K â€“ â‚¹15K", desc: "Starter websites / landing pages" },
+    { range: "â‚¹15K â€“ â‚¹30K", desc: "Professional business websites" },
+    { range: "â‚¹30K â€“ â‚¹50K", desc: "Premium custom websites" },
+    { range: "â‚¹50K â€“ â‚¹1L", desc: "Advanced websites / web systems" },
+    { range: "â‚¹1L+", desc: "Complex platforms / e-commerce / custom platforms" },
     { range: "NOT SURE", desc: "Let BlazeByte recommend appropriate scope" },
   ];
 
-  const timelineOptions = ["ASAP", "1–2 WEEKS", "2–4 WEEKS", "1–2 MONTHS", "FLEXIBLE"];
+  const timelineOptions = ["ASAP", "1â€“2 WEEKS", "2â€“4 WEEKS", "1â€“2 MONTHS", "FLEXIBLE"];
 
   // 11 Project Journey Blueprint Steps
   const blueprintSteps = [
@@ -346,7 +346,7 @@ export const WebProjectConfigurator = () => {
       `*Target Timeline:* ${launchTimeline}\n` +
       `*Selected Modules (${selectedFeatures.length}):* ${selectedFeatures.slice(0, 4).join(", ")}...\n` +
       `-----------------------------------\n` +
-      `Submitted via Digital Workshop blazebyte.store/web/order`;
+      `Submitted via Digital Workshop blazebyte.shop/web/order`;
   };
 
   // --- SCREEN 01: HERO ENTRANCE SCREEN (THE DIGITAL WORKSHOP) ---
@@ -378,7 +378,7 @@ export const WebProjectConfigurator = () => {
           {/* Top Technical Editorial Marker */}
           <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#17191C]/15 font-mono text-xs text-[#5A606A]">
             <div className="flex items-center gap-2 px-3 py-1.5 bg-[#17191C] text-[#F4F1EA] border border-[#17191C] select-none">
-              <span className="text-[#3457FF] font-bold">[ → ]</span>
+              <span className="text-[#3457FF] font-bold">[ â†’ ]</span>
               <span className="font-bold tracking-widest uppercase text-white">BLAZEBYTE / WEB PROJECT SYSTEM</span>
               <span className="text-[#A5A5A5] hidden sm:inline">// DIGITAL WORKSHOP</span>
             </div>
@@ -507,23 +507,23 @@ export const WebProjectConfigurator = () => {
             <div>BLAZEBYTE DIGITAL WORKSHOP</div>
             <div className="flex items-center gap-6">
               <span>RESPONSIVE</span>
-              <span>•</span>
+              <span>â€¢</span>
               <span>SCALABLE</span>
-              <span>•</span>
+              <span>â€¢</span>
               <span>PERFORMANT</span>
-              <span>•</span>
+              <span>â€¢</span>
               <span>SEO READY</span>
             </div>
           </div>
 
         </section>
 
-        {/* SECTION 14 — PROJECT TYPE SELECTOR ("WHAT ARE WE BUILDING?") */}
+        {/* SECTION 14 â€” PROJECT TYPE SELECTOR ("WHAT ARE WE BUILDING?") */}
         <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 border-b border-[#17191C]/15">
           <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-[#17191C]/15 pb-6 gap-4">
             <div>
               <span className="text-xs font-mono font-bold text-[#3457FF] uppercase tracking-wider block">
-                01 — SYSTEM DIRECTION
+                01 â€” SYSTEM DIRECTION
               </span>
               <h2 className="text-3xl sm:text-5xl font-heading font-black text-[#17191C] uppercase tracking-tight">
                 WHAT ARE WE BUILDING?
@@ -582,7 +582,7 @@ export const WebProjectConfigurator = () => {
           </div>
         </section>
 
-        {/* SECTION 15 — 11-STEP PROJECT BLUEPRINT TIMELINE */}
+        {/* SECTION 15 â€” 11-STEP PROJECT BLUEPRINT TIMELINE */}
         <section className="py-16 bg-[#17191C] text-[#F4F1EA] border-b-2 border-[#17191C]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             
@@ -619,7 +619,7 @@ export const WebProjectConfigurator = () => {
           </div>
         </section>
 
-        {/* SECTION 16 — WEB PACKAGES GRID */}
+        {/* SECTION 16 â€” WEB PACKAGES GRID */}
         <section id="packages" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 border-b border-[#17191C]/15">
           <div className="border-b border-[#17191C]/15 pb-6 space-y-2">
             <span className="text-xs font-mono font-bold text-[#3457FF] uppercase tracking-wider block">
@@ -637,14 +637,14 @@ export const WebProjectConfigurator = () => {
             {[
               {
                 name: "WEB STARTER",
-                price: "₹5,000+",
+                price: "â‚¹5,000+",
                 desc: "Personal websites, simple business landing pages, basic service sites.",
                 features: ["Mobile-optimized UI", "Contact form & WhatsApp", "Basic SEO setup", "SSL security"],
                 pkgId: "web-starter"
               },
               {
                 name: "WEB GROWTH",
-                price: "₹15,000+",
+                price: "â‚¹15,000+",
                 popular: true,
                 desc: "Growing businesses requiring a commanding digital presence & lead engine.",
                 features: ["Custom UI/UX system", "Up to 7 pages", "WhatsApp conversion flows", "CMS ready"],
@@ -652,14 +652,14 @@ export const WebProjectConfigurator = () => {
               },
               {
                 name: "WEB PROFESSIONAL",
-                price: "₹30,000+",
+                price: "â‚¹30,000+",
                 desc: "Established enterprises seeking custom workflows, CMS, and market leadership.",
                 features: ["Bespoke visual language", "Cinematic scroll motion", "API & webhooks", "WCAG & CSP controls"],
                 pkgId: "web-professional"
               },
               {
                 name: "WEB SCALE",
-                price: "₹50,000+",
+                price: "â‚¹50,000+",
                 desc: "Enterprise platforms, e-commerce networks, booking portals, and SaaS dashboards.",
                 features: ["Full-stack app architecture", "E-commerce or booking", "Multi-language & headless DB", "Edge CDN distribution"],
                 pkgId: "web-scale"
@@ -699,14 +699,14 @@ export const WebProjectConfigurator = () => {
                   onMouseEnter={playHover}
                   className="w-full py-3 bg-[#17191C] hover:bg-[#3457FF] text-[#F4F1EA] font-mono font-bold text-xs uppercase transition-colors cursor-pointer text-center"
                 >
-                  CONFIGURE THIS TIER →
+                  CONFIGURE THIS TIER â†’
                 </button>
               </div>
             ))}
           </div>
         </section>
 
-        {/* SECTION 17 — TRUST FLOW ("HOW YOUR PROJECT MOVES") */}
+        {/* SECTION 17 â€” TRUST FLOW ("HOW YOUR PROJECT MOVES") */}
         <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="border-b border-[#17191C]/15 pb-6 space-y-2">
             <span className="text-xs font-mono font-bold text-[#3457FF] uppercase tracking-wider block">
@@ -785,6 +785,13 @@ export const WebProjectConfigurator = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             {generatedInvoiceId && (
+              <Link href={`/pay?id=${generatedInvoiceId}`} onClick={playClick}>
+                <button className="w-full sm:w-auto px-6 py-3.5 bg-[#3457FF] text-white font-mono font-bold text-xs uppercase hover:bg-[#3457FF]/90 transition-all cursor-pointer">
+                  PAY 50% ADVANCE →
+                </button>
+              </Link>
+            )}
+            {generatedInvoiceId && (
               <Link href={`/invoice?id=${generatedInvoiceId}`} onClick={playClick}>
                 <button className="w-full sm:w-auto px-6 py-3.5 bg-[#17191C] text-white font-mono font-bold text-xs uppercase hover:bg-[#3457FF] transition-all cursor-pointer">
                   VIEW OFFICIAL INVOICE →
@@ -815,7 +822,7 @@ export const WebProjectConfigurator = () => {
       {/* Micro Notice Toast */}
       {microNotice && (
         <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-[#3457FF] text-white font-mono text-xs font-bold shadow-2xl animate-in fade-in duration-150">
-          ⚡ {microNotice}
+          âš¡ {microNotice}
         </div>
       )}
 
@@ -856,7 +863,7 @@ export const WebProjectConfigurator = () => {
             {currentStep === 1 && (
               <div className="space-y-6">
                 <div>
-                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">01 — PROJECT CLASSIFICATION</div>
+                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">01 â€” PROJECT CLASSIFICATION</div>
                   <h2 className="text-3xl font-heading font-black text-[#17191C] uppercase">WHAT ARE WE BUILDING?</h2>
                 </div>
 
@@ -898,7 +905,7 @@ export const WebProjectConfigurator = () => {
             {currentStep === 2 && (
               <div className="space-y-6">
                 <div>
-                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">02 — BUSINESS DETAILS</div>
+                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">02 â€” BUSINESS DETAILS</div>
                   <h2 className="text-3xl font-heading font-black text-[#17191C] uppercase">TELL US ABOUT THE BUSINESS</h2>
                 </div>
 
@@ -958,7 +965,7 @@ export const WebProjectConfigurator = () => {
             {currentStep === 3 && (
               <div className="space-y-6">
                 <div>
-                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">03 — DESIGN DIRECTION</div>
+                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">03 â€” DESIGN DIRECTION</div>
                   <h2 className="text-3xl font-heading font-black text-[#17191C] uppercase">HOW SHOULD IT FEEL?</h2>
                   <p className="text-xs text-[#5A606A] font-mono mt-1">Select up to 2 preferred design directions.</p>
                 </div>
@@ -995,7 +1002,7 @@ export const WebProjectConfigurator = () => {
             {currentStep === 4 && (
               <div className="space-y-6">
                 <div>
-                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">04 — SYSTEM MODULES</div>
+                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">04 â€” SYSTEM MODULES</div>
                   <h2 className="text-3xl font-heading font-black text-[#17191C] uppercase">REQUIRED CAPABILITY MODULES</h2>
                 </div>
 
@@ -1118,7 +1125,7 @@ export const WebProjectConfigurator = () => {
             {currentStep === 11 && (
               <div className="space-y-6">
                 <div>
-                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">11 — FINAL SPECIFICATION REVIEW</div>
+                  <div className="font-mono text-xs text-[#3457FF] font-bold uppercase">11 â€” FINAL SPECIFICATION REVIEW</div>
                   <h2 className="text-3xl font-heading font-black text-[#17191C] uppercase">CONFIRM SYSTEM SPECIFICATIONS</h2>
                 </div>
 
@@ -1150,7 +1157,7 @@ export const WebProjectConfigurator = () => {
                   disabled={isSubmitting}
                   className="w-full py-4 bg-[#3457FF] text-white font-mono font-bold text-sm uppercase tracking-wider shadow-xl hover:bg-[#3457FF]/90 transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  {isSubmitting ? "RECORDING SPECIFICATION..." : "SUBMIT SPECIFICATION & GENERATE INVOICE →"}
+                  {isSubmitting ? "RECORDING SPECIFICATION..." : "SUBMIT SPECIFICATION & GENERATE INVOICE â†’"}
                 </button>
               </div>
             )}
@@ -1165,7 +1172,7 @@ export const WebProjectConfigurator = () => {
                     currentStep === 1 ? "opacity-30 cursor-not-allowed" : "hover:bg-[#17191C] hover:text-white"
                   }`}
                 >
-                  ← PREVIOUS STEP
+                  â† PREVIOUS STEP
                 </button>
 
                 <button

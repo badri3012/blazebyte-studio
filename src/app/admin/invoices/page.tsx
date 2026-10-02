@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSound } from "@/context/sound-context";
-import { Invoice, getAllInvoices, createOrUpdateInvoice, updateInvoicePaymentStatus } from "@/lib/invoice-store";
+import { Invoice } from "@/lib/invoice-store";
 import { 
   FileText, 
   Plus, 
@@ -49,10 +49,10 @@ export default function AdminInvoicesPage() {
       if (data.success && data.invoices) {
         setInvoices(data.invoices);
       } else {
-        setInvoices(getAllInvoices());
+        setInvoices([]);
       }
     } catch {
-      setInvoices(getAllInvoices());
+      setInvoices([]);
     }
   };
 

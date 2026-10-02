@@ -2,22 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Script from "next/script";
 import { useSearchParams } from "next/navigation";
 import { useSound } from "@/context/sound-context";
-import { Invoice, getInvoiceById, getInvoiceByProjectId, PaymentReceipt } from "@/lib/invoice-store";
+import { Invoice, PaymentReceipt } from "@/lib/invoice-store";
 import { 
   Lock, 
   ShieldCheck, 
   CheckCircle2, 
   AlertCircle, 
   Printer, 
-  ArrowRight, 
-  Building2, 
   FileText, 
   CreditCard,
   Rocket,
-  RefreshCw,
-  Sparkles
+  RefreshCw
 } from "lucide-react";
 
 declare global {
@@ -26,7 +24,11 @@ declare global {
   }
 }
 
-export function PayComponent() {
+interface PayComponentProps {
+  initialInvoiceId?: string;
+}
+
+export function PayComponent({ initialInvoiceId }: PayComponentProps = {}) {
   const searchParams = useSearchParams();
   const { playHover, playClick, playSuccess } = useSound();
 
@@ -38,55 +40,93 @@ export function PayComponent() {
   const [receipt, setReceipt] = useState<PaymentReceipt | null>(null);
 
   useEffect(() => {
-    const idParam = searchParams.get("id");
+    const idParam = initialInvoiceId || searchParams.get("id");
     const projParam = searchParams.get("project");
 
-    let foundInvoice: Invoice | null = null;
-    if (idParam) foundInvoice = getInvoiceById(idParam);
-    else if (projParam) foundInvoice = getInvoiceByProjectId(projParam);
-    
-    // Default fallback
-    if (!foundInvoice) foundInvoice = getInvoiceById("INV-BB-2026-1002");
+    async function loadInvoiceData() {
+      let foundInvoice: Invoice | null = null;
+      
+      try {
+        let apiUrl = "";
+        if (idParam) apiUrl = `/api/invoice?id=${encodeURIComponent(idParam)}`;
+        else if (projParam) apiUrl = `/api/invoice?project=${encodeURIComponent(projParam)}`;
 
-    if (foundInvoice) {
-      setInvoice(foundInvoice);
-      if (foundInvoice.status === "ADVANCE PAID" || foundInvoice.status === "PROJECT ACTIVE" || foundInvoice.status === "PAID IN FULL") {
-        setPaymentState("SUCCESS");
-        if (foundInvoice.receiptId) {
-          setReceipt({
-            receiptId: foundInvoice.receiptId,
-            invoiceId: foundInvoice.invoiceId,
-            projectId: foundInvoice.projectId,
-            clientName: foundInvoice.clientName,
-            clientCompany: foundInvoice.clientCompany,
-            clientEmail: foundInvoice.clientEmail,
-            amountPaid: foundInvoice.advancePaid,
-            paymentType: "50% PROJECT ADVANCE",
-            paymentMethod: "Razorpay Online Gateway",
-            paymentReference: foundInvoice.razorpayPaymentId || "PAY_CONFIRMED",
-            paymentDate: foundInvoice.paymentDate || new Date().toISOString(),
-            status: "PAID",
-            balanceRemaining: foundInvoice.balanceRemaining
-          });
+        if (apiUrl) {
+          const res = await fetch(apiUrl);
+          const data = await res.json();
+          if (res.ok && data.invoice) {
+            foundInvoice = data.invoice;
+          }
         }
+      } catch (e) {
+        console.warn("API invoice fetch fallback:", e);
       }
-    } else {
-      setErrorMsg("Invoice record not found.");
+
+      if (foundInvoice) {
+        setInvoice(foundInvoice);
+        const isVerifiedPaid = (foundInvoice.status === "ADVANCE PAID" || foundInvoice.status === "PAID IN FULL" || foundInvoice.status === "PROJECT ACTIVE") &&
+                               Boolean(foundInvoice.razorpayPaymentId) &&
+                               Number(foundInvoice.advancePaid) > 0;
+
+        if (isVerifiedPaid) {
+          setPaymentState("SUCCESS");
+          if (foundInvoice.receiptId) {
+            setReceipt({
+              receiptId: foundInvoice.receiptId,
+              invoiceId: foundInvoice.invoiceId,
+              projectId: foundInvoice.projectId,
+              clientName: foundInvoice.clientName,
+              clientCompany: foundInvoice.clientCompany,
+              clientEmail: foundInvoice.clientEmail,
+              amountPaid: foundInvoice.advancePaid,
+              paymentType: "50% PROJECT ADVANCE",
+              paymentMethod: "Razorpay Online Gateway",
+              paymentReference: foundInvoice.razorpayPaymentId || "PAY_CONFIRMED",
+              paymentDate: foundInvoice.paymentDate || new Date().toISOString(),
+              status: "PAID",
+              balanceRemaining: foundInvoice.balanceRemaining
+            });
+          }
+        } else {
+          setPaymentState("IDLE");
+        }
+      } else {
+        setErrorMsg("Invoice record not found.");
+      }
+      setLoading(false);
     }
-    setLoading(false);
+
+    loadInvoiceData();
   }, [searchParams]);
 
-  // Dynamically load Razorpay SDK
-  const loadRazorpayScript = () => {
+  // Dynamically load Razorpay SDK and await
+  const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
       if (typeof window !== "undefined" && window.Razorpay) {
+        console.log("[RAZORPAY SCRIPT LOG] window.Razorpay is already present in DOM.");
         resolve(true);
         return;
       }
+      const existingScript = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+      if (existingScript) {
+        console.log("[RAZORPAY SCRIPT LOG] Script tag exists in DOM, waiting for onload...");
+        existingScript.addEventListener("load", () => resolve(true));
+        existingScript.addEventListener("error", () => resolve(false));
+        setTimeout(() => resolve(typeof window !== "undefined" && Boolean(window.Razorpay)), 2000);
+        return;
+      }
+      console.log("[RAZORPAY SCRIPT LOG] Creating script tag dynamically...");
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
+      script.async = true;
+      script.onload = () => {
+        console.log("[RAZORPAY SCRIPT LOG] Script loaded successfully.");
+        resolve(true);
+      };
+      script.onerror = (err) => {
+        console.error("[RAZORPAY SCRIPT ERROR] Failed to load checkout.js script:", err);
+        resolve(false);
+      };
       document.body.appendChild(script);
     });
   };
@@ -98,9 +138,11 @@ export function PayComponent() {
     setIsProcessing(true);
     setErrorMsg("");
 
+    console.log("[PAYMENT STEP 1] Initiating payment flow for invoice:", invoice.invoiceId);
+
     try {
-      // 1. Create Razorpay order on server side
-      const res = await fetch("/api/create-razorpay-order", {
+      // 1. Create Razorpay order on server side (Authoritative server-calculated 50% advance)
+      const res = await fetch("/api/payment/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -110,66 +152,75 @@ export function PayComponent() {
         })
       });
 
-      const orderData = await res.json();
+      const orderData = await res.json().catch(() => ({ error: "Invalid JSON response from server" }));
+
+      console.error("[PAYMENT STEP 1 DEBUG] create-order response status:", res.status, "Response payload:", orderData);
 
       if (!res.ok || !orderData.success) {
         setIsProcessing(false);
         if (orderData.alreadyPaid) {
-          setPaymentState("SUCCESS");
-          return;
+          const checkRes = await fetch(`/api/invoice?id=${encodeURIComponent(invoice.invoiceId)}`);
+          const checkData = await checkRes.json();
+          const isVerified = checkRes.ok && 
+                             (checkData.invoice?.status === "ADVANCE PAID" || checkData.invoice?.status === "PAID IN FULL") && 
+                             Boolean(checkData.invoice?.razorpayPaymentId) && 
+                             Number(checkData.invoice?.advancePaid) > 0;
+          if (isVerified) {
+            setInvoice(checkData.invoice);
+            setPaymentState("SUCCESS");
+            return;
+          }
         }
-        setErrorMsg(orderData.error || "Failed to initialize secure checkout order.");
+        const errMsg = orderData.error || `Server error (${res.status}) initializing checkout order.`;
+        console.error("[PAYMENT FAILED] create-order error:", errMsg);
+        setErrorMsg(`ORDER CREATION FAILED: ${errMsg}`);
         setPaymentState("FAILED");
         return;
       }
 
-      // 2. Test Mode Handler (Direct verification if Razorpay keys are placeholders)
-      if (orderData.testMode) {
-        console.log("[TEST MODE PAYMENT SIMULATION INITIATED]");
-        
-        const verifyRes = await fetch("/api/verify-razorpay-payment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            invoiceId: invoice.invoiceId,
-            razorpayOrderId: orderData.orderId,
-            razorpayPaymentId: `pay_test_${Math.floor(100000 + Math.random() * 900000)}`,
-            isTestMode: true
-          })
-        });
+      // Requirement 4: Confirm frontend uses exact property names: orderId, amount, currency, keyId
+      const { orderId, amount, currency, keyId } = orderData;
 
-        const verifyData = await verifyRes.json();
+      console.log("[PAYMENT STEP 2] Verified order payload keys:", {
+        hasOrderId: Boolean(orderId),
+        hasAmount: Boolean(amount),
+        currency,
+        keyIdPrefix: keyId ? keyId.substring(0, 8) : "MISSING"
+      });
+
+      if (!orderId || !keyId || !amount) {
+        const errMsg = "Server response missing required orderId, amount, or keyId parameters.";
+        console.error("[PAYMENT FAILED]", errMsg, orderData);
         setIsProcessing(false);
-
-        if (verifyRes.ok && verifyData.success) {
-          playSuccess();
-          setInvoice(verifyData.invoice);
-          setReceipt(verifyData.receipt);
-          setPaymentState("SUCCESS");
-        } else {
-          setErrorMsg(verifyData.error || "Server payment verification failed.");
-          setPaymentState("FAILED");
-        }
+        setErrorMsg(`INVALID ORDER RESPONSE: ${errMsg}`);
+        setPaymentState("FAILED");
         return;
       }
 
-      // 3. Real Razorpay Checkout Modal
+      // Requirement 3: Ensure checkout.js loaded dynamically and awaited BEFORE new window.Razorpay(options).open()
+      console.log("[PAYMENT STEP 3] Awaiting Razorpay script load...");
       const isLoaded = await loadRazorpayScript();
-      if (!isLoaded) {
+
+      console.error("[PAYMENT STEP 3 DEBUG] checkout.js script loaded:", isLoaded, "window.Razorpay exists:", typeof window !== "undefined" && Boolean(window.Razorpay));
+
+      if (!isLoaded || typeof window === "undefined" || !window.Razorpay) {
+        const errMsg = "Unable to load Razorpay payment gateway script (checkout.js). Check network/ad-blocker settings.";
+        console.error("[PAYMENT FAILED]", errMsg);
         setIsProcessing(false);
-        setErrorMsg("Failed to load Razorpay payment gateway. Check network connection.");
+        setErrorMsg(`GATEWAY SCRIPT LOAD FAILED: ${errMsg}`);
         setPaymentState("FAILED");
         return;
       }
 
+      // Requirement 1 & 2: Construct options object and log keys
       const options = {
-        key: orderData.keyId,
-        amount: orderData.amount,
-        currency: orderData.currency,
+        key: keyId,
+        amount: amount,
+        currency: currency || "INR",
         name: "BLAZEBYTE STUDIO",
         description: `50% Advance — Invoice ${invoice.invoiceId}`,
-        image: "https://blazebyte.store/images/logo.png",
-        order_id: orderData.orderId,
+        image: "https://blazebyte.shop/images/logo.png",
+        order_id: orderId,
         prefill: {
           name: invoice.clientName,
           email: invoice.clientEmail,
@@ -179,53 +230,99 @@ export function PayComponent() {
           color: "#3457FF"
         },
         handler: async function (response: any) {
+          console.log("[PAYMENT STEP 4] Razorpay modal completed payment. Received handler payload:", {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            hasSignature: Boolean(response.razorpay_signature)
+          });
+
           try {
-            const verifyRes = await fetch("/api/verify-razorpay-payment", {
+            const verifyRes = await fetch("/api/payment/verify", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 invoiceId: invoice.invoiceId,
-                razorpayOrderId: response.razorpay_order_id,
-                razorpayPaymentId: response.razorpay_payment_id,
-                razorpaySignature: response.razorpay_signature
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature
               })
             });
 
             const verifyData = await verifyRes.json();
-            setIsProcessing(false);
+            console.error("[PAYMENT VERIFY DEBUG] Verify response status:", verifyRes.status, "Payload:", verifyData);
 
-            if (verifyRes.ok && verifyData.success) {
-              playSuccess();
-              setInvoice(verifyData.invoice);
-              setReceipt(verifyData.receipt);
-              setPaymentState("SUCCESS");
+            if (verifyRes.ok && verifyData.verified === true && verifyData.success === true) {
+              // Reload authoritative invoice from server
+              const reloadRes = await fetch(`/api/invoice?id=${encodeURIComponent(invoice.invoiceId)}`);
+              const reloadData = await reloadRes.json();
+
+              const isReloadVerified = reloadRes.ok && 
+                                       (reloadData.invoice?.status === "ADVANCE PAID" || reloadData.invoice?.status === "PAID IN FULL") && 
+                                       Boolean(reloadData.invoice?.razorpayPaymentId) && 
+                                       Number(reloadData.invoice?.advancePaid) > 0;
+
+              if (isReloadVerified) {
+                playSuccess();
+                setInvoice(reloadData.invoice);
+                if (verifyData.receipt) setReceipt(verifyData.receipt);
+                setPaymentState("SUCCESS");
+              } else {
+                const msg = "Payment verified by server, but database re-query did not reflect advance payment. Status remains AWAITING ADVANCE.";
+                console.error("[PAYMENT FAILED]", msg);
+                setErrorMsg(`VERIFICATION DISCREPANCY: ${msg}`);
+                setPaymentState("FAILED");
+              }
             } else {
-              setErrorMsg(verifyData.error || "PAYMENT NOT COMPLETED: Verification failed.");
+              const msg = verifyData.error || "Server signature verification failed.";
+              console.error("[PAYMENT FAILED]", msg);
+              setErrorMsg(`VERIFICATION REJECTED: ${msg}`);
               setPaymentState("FAILED");
             }
-          } catch (err) {
-            console.error(err);
-            setIsProcessing(false);
-            setErrorMsg("PAYMENT NOT COMPLETED: Verification error.");
+          } catch (err: any) {
+            console.error("[PAYMENT VERIFY EXCEPTION]", err);
+            setErrorMsg(`VERIFICATION EXCEPTION: ${err.message || "Server verification error."}`);
             setPaymentState("FAILED");
+          } finally {
+            setIsProcessing(false);
           }
         },
         modal: {
           ondismiss: function () {
+            console.log("[PAYMENT MODAL DISMISSED] Razorpay modal closed by user.");
             setIsProcessing(false);
-            setErrorMsg("Payment checkout session was cancelled by user. Project remains unactivated.");
+            setErrorMsg("CHECKOUT CANCELLED: Payment modal was closed before completing payment. The project remains in 'AWAITING ADVANCE' state.");
             setPaymentState("FAILED");
           }
         }
       };
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
+      console.error("[PAYMENT STEP 4 DEBUG] Razorpay Options Keys:", Object.keys(options));
 
-    } catch (error) {
-      console.error(error);
+      // 4. Open Razorpay Standard Checkout Modal
+      try {
+        console.log("[PAYMENT STEP 5] Instantiating window.Razorpay(options)...");
+        const rzp = new window.Razorpay(options);
+
+        rzp.on("payment.failed", function (resp: any) {
+          console.error("[RAZORPAY SDK PAYMENT FAILED]", resp);
+          setIsProcessing(false);
+          setErrorMsg(`RAZORPAY PAYMENT FAILED: ${resp.error?.description || resp.error?.reason || "Payment declined."}`);
+          setPaymentState("FAILED");
+        });
+
+        console.log("[PAYMENT STEP 6] Calling rzp.open()...");
+        rzp.open();
+      } catch (rzpOpenErr: any) {
+        console.error("[RAZORPAY OPEN THREW EXCEPTION]", rzpOpenErr);
+        setIsProcessing(false);
+        setErrorMsg(`RAZORPAY MODAL OPEN FAILED: ${rzpOpenErr.message || "Failed to launch payment window."}`);
+        setPaymentState("FAILED");
+      }
+
+    } catch (error: any) {
+      console.error("[PAYMENT UNHANDLED EXCEPTION]", error);
       setIsProcessing(false);
-      setErrorMsg("An unexpected connection error occurred.");
+      setErrorMsg(`UNEXPECTED PAYMENT ERROR: ${error.message || "Connection error."}`);
       setPaymentState("FAILED");
     }
   };
@@ -266,6 +363,8 @@ export function PayComponent() {
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-[#17191C] font-sans selection:bg-[#3457FF]/20 selection:text-[#17191C] py-12 px-4 sm:px-6 lg:px-8">
+      {/* Requirement 3: Load checkout.js via next/script with strategy "afterInteractive" */}
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       
       <div className="max-w-3xl mx-auto space-y-8">
         
@@ -334,6 +433,14 @@ export function PayComponent() {
                   <span className="text-[#5A606A] text-[10px] block uppercase">PAYMENT METHOD</span>
                   <span className="font-bold text-[#17191C]">Razorpay Online</span>
                 </div>
+                <div>
+                  <span className="text-[#5A606A] text-[10px] block uppercase">RAZORPAY PAYMENT ID</span>
+                  <span className="font-bold text-[#3457FF]">{invoice.razorpayPaymentId || receipt?.paymentReference || "pay_verified"}</span>
+                </div>
+                <div>
+                  <span className="text-[#5A606A] text-[10px] block uppercase">PAYMENT DATE</span>
+                  <span className="font-bold text-[#17191C]">{invoice.paymentDate ? new Date(invoice.paymentDate).toLocaleDateString("en-IN") : "Today"}</span>
+                </div>
               </div>
 
               <div className="pt-3 border-t border-[#17191C]/15 grid grid-cols-2 gap-4">
@@ -363,14 +470,14 @@ export function PayComponent() {
               <button
                 onClick={handlePrintReceipt}
                 onMouseEnter={playHover}
-                className="w-full sm:w-auto px-6 py-3 bg-[#F4F1EA] text-[#17191C] border border-[#17191C] font-mono font-bold text-xs uppercase hover:bg-[#17191C] hover:text-[#F4F1EA] transition-all flex items-center justify-center gap-2"
+                className="w-full sm:w-auto px-6 py-3 bg-[#F4F1EA] text-[#17191C] border border-[#17191C] font-mono font-bold text-xs uppercase hover:bg-[#17191C] hover:text-[#F4F1EA] transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 <span>PRINT PAYMENT RECEIPT</span>
               </button>
 
               <Link href={`/invoice?id=${invoice.invoiceId}`} onClick={playClick}>
-                <button className="w-full sm:w-auto px-6 py-3 bg-[#3457FF] text-white font-mono font-bold text-xs uppercase hover:bg-[#3457FF]/90 transition-all flex items-center justify-center gap-2">
+                <button className="w-full sm:w-auto px-6 py-3 bg-[#3457FF] text-white font-mono font-bold text-xs uppercase hover:bg-[#3457FF]/90 transition-all flex items-center justify-center gap-2 cursor-pointer">
                   <span>VIEW INVOICE RECORD →</span>
                 </button>
               </Link>
@@ -390,8 +497,8 @@ export function PayComponent() {
                   <AlertCircle className="w-4 h-4" />
                   <span>PAYMENT NOT COMPLETED</span>
                 </div>
-                <p className="text-[11px] text-red-800 font-sans">
-                  {errorMsg || "Your project has not been activated yet. Please verify payment details and try again."}
+                <p className="text-[11px] text-red-800 font-sans break-words font-mono font-semibold">
+                  {errorMsg || "Your project has not been activated yet. The invoice remains in 'AWAITING ADVANCE' state."}
                 </p>
               </div>
             )}
@@ -466,7 +573,12 @@ export function PayComponent() {
                 {isProcessing ? (
                   <>
                     <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>INITIALIZING SECURE CHECKOUT...</span>
+                    <span>OPENING SECURE RAZORPAY CHECKOUT...</span>
+                  </>
+                ) : paymentState === "FAILED" ? (
+                  <>
+                    <CreditCard className="w-5 h-5" />
+                    <span>TRY PAYMENT AGAIN (₹{invoice.advanceRequired.toLocaleString("en-IN")} ADVANCE) →</span>
                   </>
                 ) : (
                   <>

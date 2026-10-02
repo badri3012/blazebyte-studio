@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSound } from "@/context/sound-context";
-import { Invoice, getInvoiceById, getInvoiceByProjectId, PACKAGE_AUTHORITATIVE_PRICES, createOrUpdateInvoice } from "@/lib/invoice-store";
+import { Invoice } from "@/lib/invoice-store";
 import { SITE_CONFIG } from "@/config/studio-data";
 import { 
   Printer, 
@@ -59,29 +59,9 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
         console.warn("API fetch invoice warning:", e);
       }
 
-      // Fallback to local store
-      let foundInvoice: Invoice | null = null;
-      if (idParam) foundInvoice = getInvoiceById(idParam);
-      else if (projParam) foundInvoice = getInvoiceByProjectId(projParam);
-      else if (pkgParam && PACKAGE_AUTHORITATIVE_PRICES[pkgParam]) {
-        const pkg = PACKAGE_AUTHORITATIVE_PRICES[pkgParam];
-        foundInvoice = createOrUpdateInvoice({
-          clientName: "Valued Client",
-          clientEmail: "client@example.com",
-          totalAmount: pkg.price,
-          serviceCategory: pkg.category,
-          selectedPackage: pkg.title,
-          projectName: `${pkg.title} Project`,
-          scopeSummary: pkg.scope
-        });
+      setErrorMsg('Invoice record not found.');
+        setLoading(false);
       }
-
-      if (!foundInvoice) foundInvoice = getInvoiceById("INV-BB-2026-1002");
-
-      if (foundInvoice) setInvoice(foundInvoice);
-      else setErrorMsg("Invoice record not found.");
-      setLoading(false);
-    }
 
     loadInvoice();
   }, [initialInvoiceId, searchParams]);
@@ -120,7 +100,9 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
     );
   }
 
-  const isAlreadyPaid = invoice.status === "ADVANCE PAID" || invoice.status === "PROJECT ACTIVE" || invoice.status === "PAID IN FULL";
+  const isAlreadyPaid = (invoice.status === "ADVANCE PAID" || invoice.status === "PROJECT ACTIVE" || invoice.status === "PAID IN FULL") &&
+                        Boolean(invoice.razorpayPaymentId) &&
+                        Number(invoice.advancePaid) > 0;
 
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-[#17191C] font-sans selection:bg-[#3457FF]/20 selection:text-[#17191C] py-12 px-4 sm:px-6 lg:px-8">
@@ -140,11 +122,11 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
               </span>
             </div>
             <p className="text-xs font-mono text-[#5A606A]">
-              PRECISION DIGITAL EXPERIENCES • GROWTH • INTELLIGENT SYSTEMS
+              PRECISION DIGITAL EXPERIENCES â€¢ GROWTH â€¢ INTELLIGENT SYSTEMS
             </p>
             <div className="text-[11px] font-mono text-[#5A606A] pt-1 space-y-0.5">
               <div>Coimbatore, Tamil Nadu, India</div>
-              <div>Domain: blazebyte.store</div>
+              <div>Domain: blazebyte.shop</div>
               <div>Email: blazebytestudio7@gmail.com</div>
               <div>WhatsApp: {SITE_CONFIG.contact.whatsappDisplay}</div>
               <div className="pt-1 font-bold text-[#17191C]">Udyam Reg: UDYAM-TN-03-0334061</div>
@@ -253,10 +235,10 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
               <tbody className="divide-y divide-[#17191C]/15">
                 <tr>
                   <td className="p-3 font-bold text-[#17191C]">
-                    Total Project Value — {invoice.projectName} ({invoice.selectedPackage})
+                    Total Project Value â€” {invoice.projectName} ({invoice.selectedPackage})
                   </td>
                   <td className="p-3 text-right font-bold text-[#17191C]">
-                    ₹{invoice.totalAmount.toLocaleString("en-IN")}
+                    â‚¹{invoice.totalAmount.toLocaleString("en-IN")}
                   </td>
                 </tr>
                 
@@ -272,7 +254,7 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
                   </td>
                   <td className="p-4 text-right">
                     <div className="font-mono font-black text-lg text-[#3457FF]">
-                      ₹{invoice.advanceRequired.toLocaleString("en-IN")}
+                      â‚¹{invoice.advanceRequired.toLocaleString("en-IN")}
                     </div>
                     <div className="text-[10px] text-[#3457FF] font-bold">
                       50% ADVANCE DUE
@@ -291,7 +273,7 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
                     </div>
                   </td>
                   <td className="p-3 text-right font-bold text-[#5A606A]">
-                    ₹{invoice.balanceRemaining.toLocaleString("en-IN")}
+                    â‚¹{invoice.balanceRemaining.toLocaleString("en-IN")}
                   </td>
                 </tr>
               </tbody>
@@ -330,12 +312,12 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
               onClick={playClick}
               className="w-full sm:w-auto px-8 py-4 bg-[#3457FF] hover:bg-[#3457FF]/90 text-white font-mono font-bold text-sm uppercase tracking-wider shadow-lg flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span>PAY ₹{invoice.advanceRequired.toLocaleString("en-IN")} ADVANCE →</span>
+              <span>PAY â‚¹{invoice.advanceRequired.toLocaleString("en-IN")} ADVANCE â†’</span>
             </Link>
           ) : (
             <div className="px-6 py-3.5 bg-emerald-100 text-emerald-900 border border-emerald-400 font-mono font-bold text-xs uppercase flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>50% ADVANCE CONFIRMED — PROJECT ACTIVE</span>
+              <span>50% ADVANCE CONFIRMED â€” PROJECT ACTIVE</span>
             </div>
           )}
         </div>
@@ -344,17 +326,17 @@ export function InvoiceViewComponent({ initialInvoiceId }: InvoiceViewProps) {
         <div className="pt-6 border-t border-[#17191C]/10 font-mono text-[10px] text-[#5A606A] space-y-1">
           <div className="flex flex-col sm:flex-row sm:justify-between gap-2">
             <div className="space-y-0.5">
-              <p className="font-bold text-[#17191C]">BlazeByte Studio — Official Commercial Document</p>
-              <p>Coimbatore, Tamil Nadu, India — blazebyte.store — blazebytestudio7@gmail.com</p>
+              <p className="font-bold text-[#17191C]">BlazeByte Studio â€” Official Commercial Document</p>
+              <p>Coimbatore, Tamil Nadu, India â€” blazebyte.shop â€” blazebytestudio7@gmail.com</p>
               <p>Udyam Registration: UDYAM-TN-03-0334061</p>
             </div>
             <div className="text-right space-y-0.5">
-              <p>Payments via Razorpay — Secured & Encrypted</p>
+              <p>Payments via Razorpay â€” Secured & Encrypted</p>
               <p>Cancellation: Client may cancel within 24 hrs.</p>
               <p>Refund: 40% of amount actually paid.</p>
             </div>
           </div>
-          <p className="text-center pt-2 border-t border-[#17191C]/10">{invoice.invoiceId} — Generated by BlazeByte Studio Commercial System</p>
+          <p className="text-center pt-2 border-t border-[#17191C]/10">{invoice.invoiceId} â€” Generated by BlazeByte Studio Commercial System</p>
         </div>
 
       </div>

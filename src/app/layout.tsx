@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
@@ -24,8 +24,8 @@ const baseUrl = `https://${SITE_CONFIG.domain}`;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: `BlazeByte Studio — Software Development Company in Coimbatore | Web, Marketing, AI & Apps`,
-    template: `%s | BlazeByte Studio — Coimbatore`,
+    default: `BlazeByte Studio â€” Software Development Company in Coimbatore | Web, Marketing, AI & Apps`,
+    template: `%s | BlazeByte Studio â€” Coimbatore`,
   },
   description:
     "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu. We build high-performance websites, digital marketing systems, AI automation, and custom apps for Indian businesses and international clients.",
@@ -54,14 +54,14 @@ export const metadata: Metadata = {
     "mobile app development",
     // Brand
     "BlazeByte Studio",
-    "blazebyte.store",
+    "blazebyte.shop",
   ],
   authors: [{ name: SITE_CONFIG.name, url: baseUrl }],
   creator: SITE_CONFIG.name,
   publisher: SITE_CONFIG.name,
   category: "Software Development",
   openGraph: {
-    title: "BlazeByte Studio — Software Development Company in Coimbatore",
+    title: "BlazeByte Studio â€” Software Development Company in Coimbatore",
     description:
       "Premium web development, digital marketing, AI automation & custom software for Indian businesses. Based in Coimbatore, Tamil Nadu.",
     url: baseUrl,
@@ -73,15 +73,15 @@ export const metadata: Metadata = {
         url: `${baseUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
-        alt: "BlazeByte Studio — Software Development Company in Coimbatore",
+        alt: "BlazeByte Studio â€” Software Development Company in Coimbatore",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BlazeByte Studio — Coimbatore Software & Digital Studio",
+    title: "BlazeByte Studio â€” Coimbatore Software & Digital Studio",
     description:
-      "Web development, digital marketing, AI & custom apps — premium studio based in Coimbatore, Tamil Nadu.",
+      "Web development, digital marketing, AI & custom apps â€” premium studio based in Coimbatore, Tamil Nadu.",
     images: [`${baseUrl}/og-image.jpg`],
   },
   robots: {
@@ -187,7 +187,7 @@ const organizationSchema = {
         opens: "00:00",
         closes: "23:59",
       },
-      priceRange: "₹₹₹",
+      priceRange: "â‚¹â‚¹â‚¹",
       servesCuisine: [],
       hasMap: `https://www.google.com/maps/search/BlazeByte+Studio+Coimbatore`,
       areaServed: [

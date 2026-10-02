@@ -1,9 +1,9 @@
-import React from "react";
+﻿import React from "react";
 import { SITE_CONFIG } from "@/config/studio-data";
 
 export const metadata = {
   title: "Privacy Policy | BlazeByte Studio",
-  description: "Privacy policy and data protection policies for blazebyte.store",
+  description: "Privacy policy and data protection policies for blazebyte.shop",
 };
 
 export default function PrivacyPolicyPage() {

@@ -1,11 +1,11 @@
-import { MetadataRoute } from "next";
+﻿import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://blazebyte.store";
+  const baseUrl = "https://blazebyte.shop";
   const now = new Date();
 
   return [
-    // Homepage — highest priority
+    // Homepage â€” highest priority
     { url: baseUrl, lastModified: now, changeFrequency: "daily", priority: 1.0 },
 
     // Core Service Pages

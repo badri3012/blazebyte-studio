@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import Link from "next/link";
 
 interface LogoProps {
@@ -29,7 +29,7 @@ export const Logo: React.FC<LogoProps> = ({ className = "", showTagline = false 
         </div>
         {showTagline && (
           <span className="text-[11px] text-muted-grey font-mono tracking-wider">
-            blazebyte.store
+            blazebyte.shop
           </span>
         )}
       </div>

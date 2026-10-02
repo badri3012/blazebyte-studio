@@ -147,7 +147,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
       `*Email:* ${clientEmail || "N/A"}\n` +
       `*Service:* ${config.title}\n` +
       `-----------------------------------\n` +
-      `Submitted via blazebyte.store${config.route}`;
+      `Submitted via blazebyte.shop${config.route}`;
   };
 
   const palette = config.colorPalette;
@@ -160,7 +160,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
       className="min-h-screen font-sans relative selection:bg-white/20 select-none"
     >
 
-      {/* 01 — SERVICE-SPECIFIC ENTRY TRANSITION OVERLAY */}
+      {/* 01 â€” SERVICE-SPECIFIC ENTRY TRANSITION OVERLAY */}
       {showEntryTransition && (
         <div 
           style={{ backgroundColor: palette.bg, color: palette.text }}
@@ -172,7 +172,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 02 — HERO ENTRANCE SCREEN */}
+      {/* 02 â€” HERO ENTRANCE SCREEN */}
       {screen === "hero" && (
         <div onMouseMove={handleMouseMove} className="relative min-h-[92vh] flex flex-col justify-between py-12 px-4 sm:px-6 lg:px-8 border-b-2 overflow-hidden" style={{ borderColor: palette.border }}>
           
@@ -194,7 +194,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
           {/* Top Technical Badge Marker */}
           <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-current/15 font-mono text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 border border-current select-none" style={{ backgroundColor: palette.bg }}>
-              <span style={{ color: palette.accent }} className="font-bold">[ → ]</span>
+              <span style={{ color: palette.accent }} className="font-bold">[ â†’ ]</span>
               <span className="font-bold tracking-widest uppercase">{config.badgeText}</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-[11px] opacity-80">
@@ -262,7 +262,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 03 — SERVICE PACKAGES GRID */}
+      {/* 03 â€” SERVICE PACKAGES GRID */}
       {screen === "hero" && (
         <section id="packages" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 border-b border-current/15">
           <div className="border-b border-current/15 pb-6 space-y-2">
@@ -311,7 +311,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                   style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
                   className="w-full py-3 font-mono font-bold text-xs uppercase transition-colors cursor-pointer text-center"
                 >
-                  SELECT THIS TIER →
+                  SELECT THIS TIER â†’
                 </button>
               </div>
             ))}
@@ -319,7 +319,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </section>
       )}
 
-      {/* 04 — CONFIGURATOR STEP SCREEN */}
+      {/* 04 â€” CONFIGURATOR STEP SCREEN */}
       {screen === "configurator" && (
         <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 font-mono">
           
@@ -349,7 +349,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
               
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider block" style={{ color: palette.accent }}>
-                  {currentQuestion.code} — {currentQuestion.title}
+                  {currentQuestion.code} â€” {currentQuestion.title}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-heading font-black uppercase mt-1">
                   {currentQuestion.subtitle}
@@ -429,7 +429,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                   }`}
                   style={{ borderColor: palette.border }}
                 >
-                  ← PREVIOUS
+                  â† PREVIOUS
                 </button>
 
                 {currentStepIdx < config.questions.length - 1 ? (
@@ -465,7 +465,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                       style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
                       className="w-full px-8 py-4 font-bold text-xs uppercase tracking-wider cursor-pointer shadow-xl"
                     >
-                      {isSubmitting ? "RECORDING SPECIFICATION..." : `SUBMIT ${config.serviceType} SPECIFICATION →`}
+                      {isSubmitting ? "RECORDING SPECIFICATION..." : `SUBMIT ${config.serviceType} SPECIFICATION â†’`}
                     </button>
                   </div>
                 )}
@@ -492,7 +492,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 05 — SUBMITTED CONFIRMATION SCREEN */}
+      {/* 05 â€” SUBMITTED CONFIRMATION SCREEN */}
       {screen === "submitted" && (
         <div className="min-h-[85vh] py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
           <div className="max-w-2xl w-full border-2 p-8 sm:p-12 space-y-8 text-center" style={{ backgroundColor: palette.cardBg, borderColor: palette.border }}>
@@ -510,6 +510,13 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {generatedInvoiceId && (
+                <Link href={`/pay?id=${generatedInvoiceId}`} onClick={playClick}>
+                  <button className="px-6 py-3.5 text-white font-mono font-bold text-xs uppercase cursor-pointer bg-[#3457FF] hover:bg-[#3457FF]/90">
+                    PAY 50% ADVANCE →
+                  </button>
+                </Link>
+              )}
               {generatedInvoiceId && (
                 <Link href={`/invoice?id=${generatedInvoiceId}`} onClick={playClick}>
                   <button className="px-6 py-3.5 text-white font-mono font-bold text-xs uppercase cursor-pointer" style={{ backgroundColor: palette.accent }}>

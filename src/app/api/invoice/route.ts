@@ -29,8 +29,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, invoice });
     }
 
-    const invoices = await dbGetAllInvoices();
-    return NextResponse.json({ success: true, invoices });
+    return NextResponse.json(
+      { error: "Invoice ID or Project ID is required.", success: false },
+      { status: 400 }
+    );
   } catch (error) {
     console.error("[INVOICE API GET ERROR]", error);
     return NextResponse.json({ error: "Failed to retrieve invoice records." }, { status: 500 });

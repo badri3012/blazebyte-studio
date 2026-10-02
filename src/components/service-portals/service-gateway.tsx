@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -160,7 +160,7 @@ export const ServiceGateway = () => {
 
       {/* FOOTER METADATA */}
       <div className="relative z-10 border-t border-[#F4F3EE]/15 pt-4 flex flex-col sm:flex-row items-center justify-between font-mono text-[10px] text-[#B8BDC7] gap-2 max-w-7xl mx-auto w-full">
-        <div>blazebyte.store • High-Performance Technology & Design Studio</div>
+        <div>blazebyte.shop â€¢ High-Performance Technology & Design Studio</div>
         <div className="font-bold text-[#FFFFFF]">
           Selected Environment: {currentMeta.tag} ({hoveredPortal.toUpperCase()})
         </div>

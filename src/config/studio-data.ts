@@ -48,7 +48,7 @@ export interface TeamMember {
 
 export const SITE_CONFIG = {
   name: "BLAZEBYTE STUDIO",
-  domain: "blazebyte.store",
+  domain: "blazebyte.shop",
   tagline: "Web + Marketing + AI + Apps — Coimbatore",
   coreConcept: {
     line1: "Build better digital systems.",

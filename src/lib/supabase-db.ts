@@ -1,7 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { Lead, getAllLeads as getLocalLeads, saveOrUpdateLead as saveLocalLead, updateLeadStatusInStore as updateLocalLeadStatus } from "./lead-store";
-import { Invoice, PaymentReceipt, getAllInvoices as getLocalInvoices, getInvoiceById as getLocalInvoiceById, getInvoiceByProjectId as getLocalInvoiceByProjectId, createOrUpdateInvoice as saveLocalInvoice, updateInvoicePaymentStatus as updateLocalInvoicePayment } from "./invoice-store";
-
+import { Lead } from "./lead-store";
+import { Invoice, PaymentReceipt } from "./invoice-store";
 // Clean Supabase URL helper
 function getSupabaseUrl(): string {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
@@ -31,72 +30,58 @@ export function getSupabaseClient() {
 
 export async function dbGetAllLeads(): Promise<Lead[]> {
   const supabase = getSupabaseClient();
-  if (!supabase) {
-    console.log("[DATA LAYER] Supabase not configured. Returning local development leads.");
-    return getLocalLeads();
-  }
+  if (!supabase) return [];
 
   try {
     const { data, error } = await supabase.from("leads").select("*").order("created_at", { ascending: false });
-    if (error || !data) {
-      console.warn("[SUPABASE READ ERROR - LEADS]:", error?.message);
-      return getLocalLeads();
-    }
+    if (error || !data) return [];
     return data as Lead[];
   } catch (err) {
     console.error("[SUPABASE EXCEPTION - LEADS]:", err);
-    return getLocalLeads();
+    return [];
   }
 }
 
 export async function dbSaveLead(leadData: Partial<Lead> & { full_name: string; email: string }): Promise<Lead> {
-  const localLead = saveLocalLead(leadData);
-
   const supabase = getSupabaseClient();
-  if (!supabase) return localLead;
+  if (!supabase) throw new Error("Supabase is required to save a lead.");
 
   try {
     const payload = {
-      id: localLead.id,
-      full_name: localLead.full_name,
-      name: localLead.full_name,
-      email: localLead.email,
-      phone: localLead.phone,
-      business_name: localLead.business_name,
-      industry: localLead.industry,
-      business_type: localLead.industry,
-      services: localLead.services,
-      service_interested_in: localLead.services,
-      package: localLead.package,
-      budget: localLead.budget,
-      timeline: localLead.timeline,
-      goals: localLead.goals,
-      requirements: localLead.requirements,
-      message: localLead.message,
-      source: localLead.source,
-      status: localLead.status,
-      created_at: localLead.created_at,
-      updated_at: localLead.updated_at,
+      id: leadData.id,
+      full_name: leadData.full_name,
+      name: leadData.full_name,
+      email: leadData.email,
+      phone: leadData.phone,
+      business_name: leadData.business_name,
+      industry: leadData.industry,
+      business_type: leadData.industry,
+      services: leadData.services,
+      service_interested_in: leadData.services,
+      package: leadData.package,
+      budget: leadData.budget,
+      timeline: leadData.timeline,
+      goals: leadData.goals,
+      requirements: leadData.requirements,
+      message: leadData.message,
+      source: leadData.source,
+      status: leadData.status || "New",
     };
 
     const { data, error } = await supabase.from("leads").upsert(payload).select().single();
     if (error) {
-      console.warn("[SUPABASE UPSERT ERROR - LEAD]:", error.message);
-    } else if (data) {
-      return data as Lead;
+      throw new Error(`[SUPABASE UPSERT ERROR - LEAD]: ${error.message}`);
     }
+    return data as Lead;
   } catch (err) {
     console.error("[SUPABASE EXCEPTION - SAVE LEAD]:", err);
+    throw err;
   }
-
-  return localLead;
 }
 
 export async function dbUpdateLeadStatus(id: string, status: string): Promise<boolean> {
-  updateLocalLeadStatus(id, status);
-
   const supabase = getSupabaseClient();
-  if (!supabase) return true;
+  if (!supabase) return false;
 
   try {
     const { error } = await supabase
@@ -121,68 +106,101 @@ export async function dbUpdateLeadStatus(id: string, status: string): Promise<bo
 
 export async function dbGetAllInvoices(): Promise<Invoice[]> {
   const supabase = getSupabaseClient();
-  if (!supabase) return getLocalInvoices();
+  if (!supabase) return [];
 
   try {
     const { data, error } = await supabase.from("invoices").select("*").order("invoiceDate", { ascending: false });
-    if (error || !data || data.length === 0) {
-      return getLocalInvoices();
-    }
+    if (error || !data) return [];
     return data as Invoice[];
   } catch (err) {
     console.error("[SUPABASE EXCEPTION - INVOICES]:", err);
-    return getLocalInvoices();
+    return [];
   }
 }
 
 export async function dbGetInvoiceById(invoiceId: string): Promise<Invoice | null> {
   const supabase = getSupabaseClient();
-  if (!supabase) return getLocalInvoiceById(invoiceId);
+  if (!supabase) return null;
 
   try {
     const { data, error } = await supabase.from("invoices").select("*").eq("invoiceId", invoiceId.trim().toUpperCase()).single();
-    if (error || !data) {
-      return getLocalInvoiceById(invoiceId);
-    }
+    if (error || !data) return null;
     return data as Invoice;
   } catch {
-    return getLocalInvoiceById(invoiceId);
+    return null;
   }
 }
 
 export async function dbGetInvoiceByProjectId(projectId: string): Promise<Invoice | null> {
   const supabase = getSupabaseClient();
-  if (!supabase) return getLocalInvoiceByProjectId(projectId);
+  if (!supabase) return null;
 
   try {
     const { data, error } = await supabase.from("invoices").select("*").eq("projectId", projectId.trim().toUpperCase()).single();
-    if (error || !data) {
-      return getLocalInvoiceByProjectId(projectId);
-    }
+    if (error || !data) return null;
     return data as Invoice;
   } catch {
-    return getLocalInvoiceByProjectId(projectId);
+    return null;
   }
 }
 
 export async function dbSaveInvoice(invoiceData: Partial<Invoice> & { totalAmount: number; clientName: string; clientEmail: string }): Promise<Invoice> {
-  const localInvoice = saveLocalInvoice(invoiceData);
-
   const supabase = getSupabaseClient();
-  if (!supabase) return localInvoice;
+  if (!supabase) throw new Error("Supabase is required to save invoice.");
+
+  // Generate ID if missing
+  const randNum = Math.floor(1000 + Math.random() * 9000);
+  const invoiceId = invoiceData.invoiceId || `INV-BB-2026-${randNum}`;
+  const projectId = invoiceData.projectId || `BB-PRJ-2026-${randNum}`;
+  
+  const totalAmount = Number(invoiceData.totalAmount);
+  const advanceRequired = Math.round(totalAmount * 0.50);
+  const advancePaid = invoiceData.advancePaid || 0;
+  const balanceRemaining = totalAmount - advancePaid;
+
+  const today = new Date().toISOString().split("T")[0];
+  const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0];
+
+  const payload: Invoice = {
+    invoiceId,
+    projectId,
+    invoiceDate: invoiceData.invoiceDate || today,
+    dueDate: invoiceData.dueDate || dueDate,
+    clientName: invoiceData.clientName,
+    clientCompany: invoiceData.clientCompany || "Independent Client",
+    clientEmail: invoiceData.clientEmail,
+    clientPhone: invoiceData.clientPhone || "+91 98765 43210",
+    projectName: invoiceData.projectName || `${invoiceData.serviceCategory || "Digital"} System Build`,
+    serviceCategory: invoiceData.serviceCategory || "Web",
+    selectedPackage: invoiceData.selectedPackage || "Custom Package",
+    scopeSummary: invoiceData.scopeSummary || [],
+    subtotal: totalAmount,
+    tax: invoiceData.tax || 0,
+    totalAmount,
+    advanceRequired,
+    advancePaid,
+    balanceRemaining,
+    status: (invoiceData.status === "ADVANCE PAID" || invoiceData.status === "PAID IN FULL") && advancePaid > 0 && Boolean(invoiceData.razorpayPaymentId) 
+      ? invoiceData.status 
+      : "AWAITING ADVANCE",
+    paymentTerms: invoiceData.paymentTerms || [],
+    razorpayOrderId: invoiceData.razorpayOrderId,
+    razorpayPaymentId: invoiceData.razorpayPaymentId,
+    paymentDate: invoiceData.paymentDate,
+    receiptId: invoiceData.receiptId,
+    notes: invoiceData.notes || ""
+  };
 
   try {
-    const { data, error } = await supabase.from("invoices").upsert(localInvoice).select().single();
+    const { data, error } = await supabase.from("invoices").upsert(payload).select().single();
     if (error) {
-      console.warn("[SUPABASE UPSERT ERROR - INVOICE]:", error.message);
-    } else if (data) {
-      return data as Invoice;
+      throw new Error(`[SUPABASE UPSERT ERROR - INVOICE]: ${error.message}`);
     }
+    return data as Invoice;
   } catch (err) {
     console.error("[SUPABASE EXCEPTION - SAVE INVOICE]:", err);
+    throw err;
   }
-
-  return localInvoice;
 }
 
 export async function dbUpdateInvoicePayment(
@@ -190,38 +208,76 @@ export async function dbUpdateInvoicePayment(
   razorpayOrderId: string,
   razorpayPaymentId: string
 ): Promise<{ invoice: Invoice; receipt: PaymentReceipt }> {
-  const localResult = updateLocalInvoicePayment(invoiceId, razorpayOrderId, razorpayPaymentId);
-
   const supabase = getSupabaseClient();
-  if (!supabase) return localResult;
+  if (!supabase) throw new Error("Supabase is required for payments.");
 
   try {
+    const { data: inv, error: getErr } = await supabase.from("invoices").select("*").eq("invoiceId", invoiceId).single();
+    if (getErr || !inv) throw new Error(`Invoice not found: ${getErr?.message || "Unknown error"}`);
+
+    const amountPaid = inv.advanceRequired;
+    const balanceRemaining = inv.totalAmount - amountPaid;
+    const paymentDate = new Date().toISOString();
+    const receiptId = `RCPT-BB-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+    const updatedInvoice = {
+      ...inv,
+      advancePaid: amountPaid,
+      balanceRemaining,
+      status: balanceRemaining === 0 ? "PAID IN FULL" : "ADVANCE PAID",
+      razorpayOrderId,
+      razorpayPaymentId,
+      paymentDate,
+      receiptId
+    };
+
+    const receipt: PaymentReceipt = {
+      receiptId,
+      invoiceId: inv.invoiceId,
+      projectId: inv.projectId,
+      clientName: inv.clientName,
+      clientCompany: inv.clientCompany,
+      clientEmail: inv.clientEmail,
+      amountPaid,
+      paymentType: "50% PROJECT ADVANCE",
+      paymentMethod: "Razorpay Online Gateway",
+      paymentReference: razorpayPaymentId,
+      paymentDate,
+      status: "PAID",
+      balanceRemaining
+    };
+
     // 1. Update Invoices Table
-    const { error: invErr } = await supabase.from("invoices").update(localResult.invoice).eq("invoiceId", invoiceId);
+    const { error: invErr } = await supabase.from("invoices").update(updatedInvoice).eq("invoiceId", invoiceId);
     if (invErr) console.warn("[SUPABASE UPDATE ERROR - INVOICE PAYMENT]:", invErr.message);
 
     // 2. Insert into Payments Table
     const paymentRecord = {
-      receipt_id: localResult.receipt.receiptId,
-      invoice_id: localResult.receipt.invoiceId,
-      project_id: localResult.receipt.projectId,
-      client_name: localResult.receipt.clientName,
-      client_email: localResult.receipt.clientEmail,
-      amount_paid: localResult.receipt.amountPaid,
-      payment_type: localResult.receipt.paymentType,
-      payment_method: localResult.receipt.paymentMethod,
-      payment_reference: localResult.receipt.paymentReference,
+      receipt_id: receiptId,
+      invoice_id: receipt.invoiceId,
+      project_id: receipt.projectId,
+      client_name: receipt.clientName,
+      client_email: receipt.clientEmail,
+      amount_paid: receipt.amountPaid,
+      payment_type: receipt.paymentType,
+      payment_method: receipt.paymentMethod,
+      payment_reference: receipt.paymentReference,
       razorpay_order_id: razorpayOrderId,
       razorpay_payment_id: razorpayPaymentId,
       status: "VERIFIED",
-      payment_date: localResult.receipt.paymentDate,
+      payment_date: receipt.paymentDate,
     };
 
     const { error: payErr } = await supabase.from("payments").upsert(paymentRecord);
     if (payErr) console.warn("[SUPABASE UPSERT ERROR - PAYMENT RECEIPT]:", payErr.message);
+
+    // 3. Update Lead Status to "PROJECT ACTIVE"
+    const { error: leadErr } = await supabase.from("leads").update({ status: "PROJECT ACTIVE" }).eq("id", inv.projectId);
+    if (leadErr) console.warn("[SUPABASE UPDATE ERROR - LEAD STATUS]:", leadErr.message);
+
+    return { invoice: updatedInvoice as Invoice, receipt };
   } catch (err) {
     console.error("[SUPABASE EXCEPTION - PAYMENT VERIFICATION]:", err);
+    throw err;
   }
-
-  return localResult;
 }
