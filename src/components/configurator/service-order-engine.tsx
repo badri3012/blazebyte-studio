@@ -30,7 +30,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
   const { playHover, playClick, playSuccess } = useSound();
 
   // Screen State: 'hero' | 'configurator' | 'submitted'
-  const [screen, setScreen] = useState<"hero" | "configurator" | "submitted">("hero");
+  const [screen, setScreen] = useState<"hero" | "configurator" | "submitted">("configurator");
   const [currentStepIdx, setCurrentStepIdx] = useState<number>(0);
   const [showEntryTransition, setShowEntryTransition] = useState<boolean>(true);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
