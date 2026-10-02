@@ -2,6 +2,7 @@
 
 import React, { Suspense } from "react";
 import { ProjectConfigurator } from "@/components/forms/project-configurator";
+import { ShortEnquiryForm } from "@/components/forms/short-enquiry";
 import { SITE_CONFIG } from "@/config/studio-data";
 import { Mail, MessageSquare, ShieldCheck, Sparkles } from "lucide-react";
 
@@ -37,6 +38,14 @@ function ContactContent() {
 
           {/* Direct Studio Channels Box */}
           <div className="space-y-6">
+            <div className="p-6 rounded-2xl bg-graphite-card border border-graphite-border space-y-4">
+              <h3 className="text-lg font-heading font-bold text-ivory border-b border-graphite-border pb-3">
+                Quick Enquiry
+              </h3>
+              <p className="text-xs text-muted-grey">Short on time? Drop a quick request.</p>
+              <ShortEnquiryForm />
+            </div>
+
             <div className="p-6 rounded-2xl bg-graphite-card border border-graphite-border space-y-6">
               <h3 className="text-lg font-heading font-bold text-ivory border-b border-graphite-border pb-3">
                 Direct Communication
@@ -96,3 +105,4 @@ function ContactContent() {
 }
 
 export default function ContactPage() { return <ContactContent />; }
+

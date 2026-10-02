@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import { ArrowRight, Globe, TrendingUp, Cpu, Smartphone, Sparkles, Send } from "lucide-react";
@@ -476,3 +476,4 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
     </motion.div>
   );
 };
+

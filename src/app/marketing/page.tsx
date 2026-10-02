@@ -247,14 +247,12 @@ export default function MarketingServicePage() {
             {/* Right Column: High-Resolution Indigo Anime Hero Scene */}
             <div className="lg:col-span-5 relative group">
               <div className="relative border-2 border-[#FF5C68] bg-[#101014] p-2 shadow-[12px_12px_0px_#242044] overflow-hidden">
-                <motion.img
-                  src="/images/indigo-anime-marketing-hero.jpg"
-                  alt="Creative Strategy Studio at Night Indigo Anime Scene"
+                <motion.div 
                   initial={{ scale: 1 }}
                   animate={{ scale: [1, 1.03, 1] }}
                   transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-full h-auto object-cover border border-[#242044]"
-                />
+                   className="relative w-full h-auto object-cover border border-[#242044]" 
+                ><Image src="/images/indigo-anime-marketing-hero.jpg" alt="Creative Strategy Studio at Night Indigo Anime Scene" fill className="object-cover" /></motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#17172B]/60 via-transparent to-transparent pointer-events-none" />
 
                 {/* Overlaid Editorial Metadata */}
@@ -612,5 +610,6 @@ export default function MarketingServicePage() {
     </div>
   );
 }
+
 
 

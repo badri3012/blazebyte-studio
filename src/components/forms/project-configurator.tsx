@@ -38,11 +38,11 @@ export const ProjectConfigurator = () => {
   }, [searchParams]);
 
   const budgetOptions = [
-    "â‚¹5kâ€“â‚¹15k",
-    "â‚¹15kâ€“â‚¹30k",
-    "â‚¹30kâ€“â‚¹50k",
-    "â‚¹50kâ€“â‚¹1L",
-    "â‚¹1L+",
+    "₹15k - ₹30k",
+    "₹30k - ₹50k",
+    "₹50k - ₹1L",
+    "₹1L - ₹2L",
+    "₹2L+",
   ];
 
   const goalOptions = [
@@ -177,7 +177,7 @@ export const ProjectConfigurator = () => {
         {step === 1 && (
           <div className="space-y-4">
             <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-ivory">
-              01 â€” What service system do you need?
+              01 - What service system do you need?
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
               {PORTALS.map((p) => (
@@ -206,7 +206,7 @@ export const ProjectConfigurator = () => {
         {step === 2 && (
           <div className="space-y-4">
             <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-ivory">
-              02 â€” What is your target budget allocation?
+              02 - What is your target budget allocation?
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {budgetOptions.map((b) => (
@@ -233,7 +233,7 @@ export const ProjectConfigurator = () => {
         {step === 3 && (
           <div className="space-y-4">
             <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-ivory">
-              03 â€” What is the primary commercial goal?
+              03 - What is the primary commercial goal?
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
               {goalOptions.map((g) => (
@@ -260,7 +260,7 @@ export const ProjectConfigurator = () => {
         {step === 4 && (
           <div className="space-y-4">
             <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-ivory">
-              04 â€” Tell us about the project requirements & timeline
+              04 - Tell us about the project requirements & timeline
             </label>
             <textarea
               rows={5}
@@ -275,7 +275,7 @@ export const ProjectConfigurator = () => {
         {step === 5 && (
           <form onSubmit={handleSubmitForm} className="space-y-6">
             <label className="block text-sm font-mono font-semibold uppercase tracking-wider text-ivory">
-              05 â€” Provide contact details to dispatch enquiry
+              05 - Provide contact details to dispatch enquiry
             </label>
 
             {errorMsg && (
