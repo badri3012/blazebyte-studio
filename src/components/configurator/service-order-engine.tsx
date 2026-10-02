@@ -443,22 +443,13 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                   </button>
                 ) : (
                   <div className="space-y-4 w-full sm:w-auto">
-                    <div className="space-y-2">
-                      <input 
-                        type="text" 
-                        placeholder="Your Full Name *" 
-                        value={clientName} 
-                        onChange={e => setClientName(e.target.value)}
-                        className="w-full p-3 border text-xs text-[#17191C] bg-white"
-                      />
-                      <input 
-                        type="email" 
-                        placeholder="Your Email Address *" 
-                        value={clientEmail} 
-                        onChange={e => setClientEmail(e.target.value)}
-                        className="w-full p-3 border text-xs text-[#17191C] bg-white"
-                      />
-                    </div>
+                    <div className="space-y-3">
+  <input type="text" placeholder="Your Full Name *" value={clientName} onChange={e => setClientName(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
+  <input type="text" placeholder="Business / Brand Name *" value={clientCompany} onChange={e => setClientCompany(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
+  <input type="email" placeholder="Your Email Address *" value={clientEmail} onChange={e => setClientEmail(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
+  <input type="tel" placeholder="WhatsApp / Phone (Optional)" value={clientWhatsapp} onChange={e => setClientWhatsapp(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
+</div>
+{errorMessage && <div className="text-red-600 text-xs font-bold p-3 border border-red-600 bg-red-50 mt-2 mb-2">{errorMessage}</div>}
                     <button
                       onClick={handleFinalSubmit}
                       disabled={isSubmitting}
