@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { dbGetAllLeads, dbGetAllInvoices } from "@/lib/supabase-db";
 import Link from "next/link";
@@ -188,3 +189,4 @@ export default async function AdminDashboardPage() {
     </div>
   );
 }
+

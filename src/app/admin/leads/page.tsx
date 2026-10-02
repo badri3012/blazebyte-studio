@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { LeadStatusSelect } from "@/components/admin/lead-status-select";
 import { dbGetAllLeads } from "@/lib/supabase-db";
 
@@ -76,3 +77,4 @@ export default async function AdminLeadsPage() {
     </div>
   );
 }
+
