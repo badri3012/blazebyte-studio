@@ -1,10 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
-export const metadata = {
-  title: "Disclaimer | BlazeByte Studio",
-  description: "Important legal disclaimers regarding marketing outcomes and services.",
-};
+
 
 export default function DisclaimerPage() {
   const lastUpdated = "August 30, 2026";
@@ -73,3 +70,4 @@ export default function DisclaimerPage() {
     </div>
   );
 }
+

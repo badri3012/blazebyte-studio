@@ -1,10 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export const metadata = {
-  title: "Digital Marketing Packages | BlazeByte Studio",
-  description: "Transparent pricing for premium digital marketing services.",
-};
+
 
 export default function PackagesPage() {
   return (
@@ -235,3 +232,4 @@ export default function PackagesPage() {
     </div>
   );
 }
+

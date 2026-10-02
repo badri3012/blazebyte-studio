@@ -1,10 +1,7 @@
 ﻿import React from "react";
 import { SITE_CONFIG } from "@/config/studio-data";
 
-export const metadata = {
-  title: "Terms of Service | BlazeByte Studio",
-  description: "Terms and conditions for blazebyte.shop",
-};
+
 
 export default function TermsPage() {
   return (
@@ -45,3 +42,4 @@ export default function TermsPage() {
     </div>
   );
 }
+

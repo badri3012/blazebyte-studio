@@ -1,10 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export const metadata = {
-  title: "Frequently Asked Questions | BlazeByte Studio",
-  description: "Answers to common questions about our digital marketing services.",
-};
+
 
 export default function FAQPage() {
   const faqs = [
@@ -83,3 +80,4 @@ export default function FAQPage() {
     </div>
   );
 }
+

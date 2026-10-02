@@ -1,10 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
-export const metadata = {
-  title: "Cookie Policy | BlazeByte Studio",
-  description: "Information on how BlazeByte Studio uses cookies and tracking technologies.",
-};
+
 
 export default function CookiePolicyPage() {
   const lastUpdated = "August 30, 2026";
@@ -67,3 +64,4 @@ export default function CookiePolicyPage() {
     </div>
   );
 }
+

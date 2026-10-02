@@ -1,11 +1,7 @@
 ﻿import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export const metadata = {
-  title: "SEO Services | Technical, Local & Content SEO | BlazeByte Studio",
-  description:
-    "BlazeByte Studio provides technical SEO, on-page SEO, local SEO, content SEO and e-commerce SEO to help businesses increase organic visibility, qualified traffic and leads.",
-};
+
 
 export default function SEOPage() {
   return (
@@ -413,6 +409,7 @@ export default function SEOPage() {
     </div>
   );
 }
+
 
 
 

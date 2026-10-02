@@ -1,10 +1,7 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
-export const metadata = {
-  title: "Refund & Cancellation Policy | BlazeByte Studio",
-  description: "Refund and cancellation terms for BlazeByte Studio digital marketing services.",
-};
+
 
 export default function RefundPolicyPage() {
   const lastUpdated = "August 30, 2026";
@@ -76,3 +73,4 @@ export default function RefundPolicyPage() {
     </div>
   );
 }
+
