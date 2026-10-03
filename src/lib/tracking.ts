@@ -1,35 +1,27 @@
-﻿export const trackEvent = (eventName: string, params: Record<string, any> = {}) => {
-  if (typeof window !== "undefined" && (window as any).dataLayer) {
-    (window as any).dataLayer.push({
-      event: eventName,
-      ...params,
-    });
-  } else {
-    // Analytics not initialized or blocked
-    console.debug("[Tracking] " + eventName, params);
+/**
+ * Minimal GA4 event helper (gtag.js).
+ *
+ * GA4 itself is loaded once from src/components/analytics/google-analytics.tsx.
+ * This helper is browser-safe: it is a no-op during SSR, in development builds,
+ * or when gtag has not loaded (e.g. blocked by an ad blocker).
+ *
+ * Page views are NOT sent from here — GA4 config + Enhanced Measurement handle them.
+ *
+ * Planned (not yet wired) business events: whatsapp_click, phone_click, email_click,
+ * cta_click, form_start, form_submit, service_view.
+ * Never pass names, emails, phone numbers or free-text messages as parameters.
+ */
+
+type GtagEventParams = Record<string, string | number | boolean | undefined>;
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
-};
+}
 
-export const trackPageView = (url: string) => {
-  trackEvent("page_view", { page_path: url });
-};
-
-export const trackContactClick = (method: "whatsapp" | "email" | "phone", label?: string) => {
-  trackEvent("contact_click", { method, label });
-};
-
-export const trackConfiguratorStep = (stepName: string, stepIndex: number, service: string) => {
-  trackEvent("configurator_step", { step_name: stepName, step_index: stepIndex, service });
-};
-
-export const trackLeadGen = (service: string, packageId?: string) => {
-  trackEvent("generate_lead", { service, package_id: packageId });
-};
-
-export const trackPurchase = (transactionId: string, amount: number, currency: string = "INR") => {
-  trackEvent("purchase", {
-    transaction_id: transactionId,
-    value: amount,
-    currency: currency,
-  });
-};
+export function trackEvent(eventName: string, params: GtagEventParams = {}): void {
+  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
+  window.gtag("event", eventName, params);
+}
