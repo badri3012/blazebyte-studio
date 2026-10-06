@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
@@ -7,6 +7,7 @@ import { SoundProvider } from "@/context/sound-context";
 import { ServiceTransitionProvider } from "@/context/service-transition-context";
 import { SITE_CONFIG } from "@/config/studio-data";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { AnalyticsClickTracker } from "@/components/analytics/click-tracker";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -167,10 +168,12 @@ export default function RootLayout({
           </ServiceTransitionProvider>
         </SoundProvider>
         <GoogleAnalytics />
+        <AnalyticsClickTracker />
       </body>
     </html>
   );
 }
+
 
 
 

@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { submitLead } from "@/app/actions/lead";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/tracking";
 
 export function LeadForm({ defaultPackage = "", source = "contact" }: { defaultPackage?: string, source?: string }) {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -25,6 +26,7 @@ export function LeadForm({ defaultPackage = "", source = "contact" }: { defaultP
       setMessage(result.error);
     } else if (result.success) {
       setStatus("success");
+      trackEvent("form_submit", { form_id: "lead_form", service: formData.get("services")?.toString() || "Not Specified" });
       setMessage("Thank you! We have received your request and will be in touch shortly.");
     }
   }
@@ -148,3 +150,5 @@ export function LeadForm({ defaultPackage = "", source = "contact" }: { defaultP
     </form>
   );
 }
+
+

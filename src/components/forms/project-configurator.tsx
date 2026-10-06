@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { trackEvent } from "@/lib/tracking";
 import { useSound } from "@/context/sound-context";
 import { Button } from "@/components/ui/button";
 import { SITE_CONFIG, PORTALS } from "@/config/studio-data";
@@ -115,6 +116,7 @@ export const ProjectConfigurator = () => {
       if (res.ok) {
         setSubmitted(true);
         playSuccess();
+        trackEvent("form_submit", { form_id: "project_configurator", service: service || "Not Specified", budget });
       } else {
         const data = await res.json();
         setErrorMsg(data.error || "Failed to submit enquiry. Please try WhatsApp direct dispatch.");
@@ -368,5 +370,7 @@ export const ProjectConfigurator = () => {
     </div>
   );
 };
+
+
 
 

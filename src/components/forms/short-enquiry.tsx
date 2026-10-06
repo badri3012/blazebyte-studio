@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { trackEvent } from "@/lib/tracking";
 
 export function ShortEnquiryForm() {
   const [name, setName] = useState("");
@@ -39,6 +40,7 @@ export function ShortEnquiryForm() {
 
       if (res.ok) {
         setSubmitted(true);
+        trackEvent("form_submit", { form_id: "short_enquiry", service });
       } else {
         const data = await res.json();
         setErrorMsg(data.error || "Failed to submit enquiry.");
@@ -117,3 +119,4 @@ export function ShortEnquiryForm() {
     </form>
   );
 }
+

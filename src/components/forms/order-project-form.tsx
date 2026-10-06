@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { submitLead } from "@/app/actions/lead";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/tracking";
 import { siteConfig } from "@/config/site";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -179,6 +180,7 @@ export function OrderProjectForm() {
         setErrorMessage(result.error);
       } else if (result.success) {
         setStatus("success");
+          trackEvent("form_submit", { form_id: "order_project", service: formData.services.join(", ") });
       }
     } catch (err: unknown) {
       console.error(err);
@@ -449,3 +451,4 @@ export function OrderProjectForm() {
     </div>
   );
 }
+
