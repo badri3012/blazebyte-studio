@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { ArrowRight, Globe, TrendingUp, Cpu, Smartphone, Sparkles, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 interface PortalProps {
   isHovered: boolean;
@@ -103,10 +104,9 @@ export const EditorialWebPortal: React.FC<PortalProps> = ({
 
       {/* 45-55% TOP IMAGE WITH SLIGHT TYPOGRAPHY OVERLAP */}
       <div className="relative h-60 w-full overflow-hidden bg-[#17191C]">
-        <motion.img
-          src="/images/web-portal-hdr.jpg"
-          alt="Contemporary Digital Design Studio"
-          animate={
+        <motion.div
+          
+          initial={{ scale: 1, y: 0 }} animate={
             isHovered
               ? { scale: 1.06, y: -4 }
               : isExpanding
@@ -114,8 +114,7 @@ export const EditorialWebPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05]"
-        />
+          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/web-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={true} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#F4F1EA] via-transparent to-black/30" />
 
         {/* Custom Subtle Architectural Line Drawings & Grid Marks */}
@@ -207,10 +206,9 @@ export const CampaignGrowthPortal: React.FC<PortalProps> = ({
     >
       {/* ASYMMETRIC MAGAZINE PANEL COMPOSITION: IMAGE ON LEFT/TOP */}
       <div className="relative h-60 w-full overflow-hidden bg-[#28050B]">
-        <motion.img
-          src="/images/growth-portal-hdr.jpg"
-          alt="Creative Advertising Studio Campaign Desk"
-          animate={
+        <motion.div
+          
+          initial={{ scale: 1, y: 0 }} animate={
             isHovered
               ? { scale: 1.06, y: -4 }
               : isExpanding
@@ -218,8 +216,7 @@ export const CampaignGrowthPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.08]"
-        />
+          className="w-full h-full object-cover filter contrast-[1.08]"><Image src="/images/growth-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={true} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#3B0A11] via-transparent to-black/40" />
 
         {/* Editorial Hand-Drawn Arrow & Campaign Circle Overlay */}
@@ -301,10 +298,9 @@ export const SystemAIPortal: React.FC<PortalProps> = ({
     >
       {/* TECHNICAL IMAGE WITH INTEGRATED BLUEPRINT DIAGRAM OVERLAY */}
       <div className="relative h-60 w-full overflow-hidden bg-[#0D1117]">
-        <motion.img
-          src="/images/ai-portal-hdr.jpg"
-          alt="Systems Engineering Blueprint Workstation"
-          animate={
+        <motion.div
+          
+          initial={{ scale: 1, y: 0 }} animate={
             isHovered
               ? { scale: 1.06, y: -4 }
               : isExpanding
@@ -312,8 +308,7 @@ export const SystemAIPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05]"
-        />
+          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/ai-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#161B22] via-transparent to-black/40" />
 
         {/* Technical Workflow Node Connection Animation Lines */}
@@ -407,10 +402,9 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
           <span>SYSTEM MODULE</span>
         </div>
 
-        <motion.img
-          src="/images/apps-portal-hdr.jpg"
-          alt="Product Software Studio Displays"
-          animate={
+        <motion.div
+          
+          initial={{ scale: 1, y: 0 }} animate={
             isHovered
               ? { scale: 1.06, y: -4 }
               : isExpanding
@@ -418,8 +412,7 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05] pt-6"
-        />
+          className="w-full h-full object-cover filter contrast-[1.05] pt-6"><Image src="/images/apps-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#191C21] via-transparent to-black/30 pt-6" />
 
         {/* Component Tags Pills Overlay */}
@@ -476,4 +469,8 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
     </motion.div>
   );
 };
+
+
+
+
 
