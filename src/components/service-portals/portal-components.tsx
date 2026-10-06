@@ -114,7 +114,7 @@ export const EditorialWebPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/web-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={true} className="object-cover" /></motion.div>
+          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/web-portal-hdr.jpg" alt="Contemporary Digital Design Studio" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={true} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#F4F1EA] via-transparent to-black/30" />
 
         {/* Custom Subtle Architectural Line Drawings & Grid Marks */}
@@ -216,7 +216,7 @@ export const CampaignGrowthPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.08]"><Image src="/images/growth-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={true} className="object-cover" /></motion.div>
+          className="w-full h-full object-cover filter contrast-[1.08]"><Image src="/images/growth-portal-hdr.jpg" alt="Creative Advertising Studio Campaign Desk" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#3B0A11] via-transparent to-black/40" />
 
         {/* Editorial Hand-Drawn Arrow & Campaign Circle Overlay */}
@@ -308,7 +308,7 @@ export const SystemAIPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/ai-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
+          className="w-full h-full object-cover filter contrast-[1.05]"><Image src="/images/ai-portal-hdr.jpg" alt="Systems Engineering Blueprint Workstation" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#161B22] via-transparent to-black/40" />
 
         {/* Technical Workflow Node Connection Animation Lines */}
@@ -412,7 +412,7 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
               : { scale: 1, y: 0 }
           }
           transition={{ duration: 0.5 }}
-          className="w-full h-full object-cover filter contrast-[1.05] pt-6"><Image src="/images/apps-portal-hdr.jpg" alt="Portal Header" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
+          className="w-full h-full object-cover filter contrast-[1.05] pt-6"><Image src="/images/apps-portal-hdr.jpg" alt="Product Software Studio Displays" fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" priority={false} className="object-cover" /></motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-[#191C21] via-transparent to-black/30 pt-6" />
 
         {/* Component Tags Pills Overlay */}
@@ -469,6 +469,7 @@ export const ProductAppPortal: React.FC<PortalProps> = ({
     </motion.div>
   );
 };
+
 
 
 
