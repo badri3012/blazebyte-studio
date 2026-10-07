@@ -21,15 +21,15 @@ export default function AppsServicePage() {
       <section className="relative py-20 lg:py-28 overflow-hidden border-b-2 border-[#191C21] bg-[#F5F6F8]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-4xl space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FFFFFF] border border-[#191C21] font-mono text-xs text-[#2563EB]">
+            <h1 className="inline-flex items-center gap-2 px-3 py-1 bg-[#FFFFFF] border border-[#191C21] font-mono text-xs text-[#2563EB] uppercase">
               <Terminal className="w-3.5 h-3.5 text-[#2563EB]" />
-              <span>04 — PRODUCT ENGINEERING & SOFTWARE STUDIO</span>
-            </div>
+              <span>Custom App Development for Businesses</span>
+            </h1>
 
-            <h1 className="text-display-huge font-heading font-black tracking-tight text-[#191C21] uppercase leading-[0.9]">
+            <h2 className="text-display-huge font-heading font-black tracking-tight text-[#191C21] uppercase leading-[0.9]">
               FROM IDEA TO <br />
               <span className="text-[#2563EB]">SOFTWARE PRODUCT.</span>
-            </h1>
+            </h2>
 
             <div className="border-l-4 border-[#2563EB] pl-6 space-y-2 font-mono text-lg sm:text-xl text-[#191C21]/80">
               <p>Custom applications designed around the way your business actually works.</p>

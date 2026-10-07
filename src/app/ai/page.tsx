@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -36,15 +36,15 @@ export default function AIServicePage() {
       <section className="relative py-20 lg:py-28 overflow-hidden border-b border-[#1B4D3E]/40 bg-[#0D1117]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-4xl space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#161B22] border border-[#1B4D3E] text-xs text-[#C86D51]">
+            <h1 className="inline-flex items-center gap-2 px-3 py-1 bg-[#161B22] border border-[#1B4D3E] font-mono text-xs text-[#C86D51] uppercase">
               <Cpu className="w-3.5 h-3.5 text-[#C86D51]" />
-              <span>03 — ENTERPRISE SYSTEMS & AI ENGINEERING</span>
-            </div>
+              <span>AI Automation Services for Businesses</span>
+            </h1>
 
-            <h1 className="text-display-huge font-heading font-black tracking-tight text-[#F9F9F8] uppercase leading-[0.9]">
+            <h2 className="text-display-huge font-heading font-black tracking-tight text-[#F9F9F8] uppercase leading-[0.9]">
               AUTOMATE THE WORK. <br />
               <span className="text-[#C86D51]">AMPLIFY THE TEAM.</span>
-            </h1>
+            </h2>
 
             <div className="border-l-4 border-[#1B4D3E] pl-6 space-y-2 font-sans text-lg sm:text-xl text-[#F9F9F8]/80">
               <p>Design AI systems that reduce repetitive work, connect your tools and turn business processes into intelligent workflows.</p>
