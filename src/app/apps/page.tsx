@@ -32,7 +32,10 @@ export default function AppsServicePage() {
             </h2>
 
             <div className="border-l-4 border-[#2563EB] pl-6 space-y-2 font-mono text-lg sm:text-xl text-[#191C21]/80">
-              <p>Custom applications designed around the way your business actually works.</p>
+              <p>End-to-end custom app development for businesses that demand scalable performance.</p>
+              <p className="text-sm pt-2 text-[#191C21]/70 leading-relaxed font-sans">
+                We engineer powerful <strong>web applications</strong>, cross-platform <strong>mobile app development</strong>, <strong>SaaS platforms</strong>, and <strong>internal business tools</strong>. From rapid <strong>MVP development</strong> to complex <strong>business applications</strong> requiring deep integrations and automation, we build software designed around the way you actually work.
+              </p>
             </div>
 
             <div className="inline-block px-4 py-2 bg-[#191C21] text-[#FFFFFF] font-mono text-xs font-bold">
