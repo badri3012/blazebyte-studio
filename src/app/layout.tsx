@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
@@ -95,51 +95,32 @@ export const metadata: Metadata = {
   },
 };
 
-// LocalBusiness + Organization structured data
-const organizationSchema = {
+const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${baseUrl}/#organization`,
-      name: "BlazeByte Studio",
-      url: baseUrl,
-      logo: {
-        "@type": "ImageObject",
-        url: `${baseUrl}/logo.png`,
-      },
-      contactPoint: {
-        "@type": "ContactPoint",
-        telephone: SITE_CONFIG.contact.whatsapp,
-        contactType: "customer service",
-        email: SITE_CONFIG.contact.email,
-        availableLanguage: ["English", "Tamil"]
-      },
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Coimbatore",
-        addressRegion: "Tamil Nadu",
-        addressCountry: "IN",
-      },
-      description:
-        "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu, specialising in web development, digital marketing, AI automation, and custom application development.",
-    },
-    {
-      "@type": "LocalBusiness",
-      "@id": `${baseUrl}/#localbusiness`,
-      name: "BlazeByte Studio",
-      image: `${baseUrl}/og-image.jpg`,
-      url: baseUrl,
-      telephone: SITE_CONFIG.contact.whatsapp,
-      email: SITE_CONFIG.contact.email,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "Coimbatore",
-        addressRegion: "Tamil Nadu",
-        addressCountry: "IN",
-      }
-    }
-  ],
+  "@type": "LocalBusiness",
+  "@id": `${baseUrl}/#localbusiness`,
+  name: "BlazeByte Studio",
+  url: baseUrl,
+  logo: {
+    "@type": "ImageObject",
+    url: `${baseUrl}/logo.png`,
+  },
+  image: `${baseUrl}/og-image.jpg`,
+  description:
+    "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu, specialising in web development, digital marketing, AI automation, and custom application development.",
+  telephone: SITE_CONFIG.contact.whatsapp || undefined,
+  email: SITE_CONFIG.contact.email,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Coimbatore",
+    addressRegion: "Tamil Nadu",
+    addressCountry: "IN",
+  },
+  sameAs: [
+    SITE_CONFIG.socials.twitter,
+    SITE_CONFIG.socials.linkedin,
+    SITE_CONFIG.socials.github,
+  ].filter(Boolean),
 };
 export default function RootLayout({
   children,
@@ -154,7 +135,7 @@ export default function RootLayout({
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
       </head>
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background selection:bg-indigo-accent/30 selection:text-ivory">
