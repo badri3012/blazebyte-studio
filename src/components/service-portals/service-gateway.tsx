@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSound } from "@/context/sound-context";
@@ -105,53 +106,61 @@ export const ServiceGateway = () => {
 
         {/* 4 ART-DIRECTED SERVICE PORTALS WITH DISTINCT GEOMETRIES & IMAGE PLACEMENTS */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <EditorialWebPortal
-            isHovered={hoveredPortal === "web"}
-            isExpanding={activeService === "web"}
-            onHover={() => {
-              if (!isTransitioning) {
-                setHoveredPortal("web");
-                playHover();
-              }
-            }}
-            onClick={() => handlePortalClick("web", "/web")}
-          />
+          <Link href="/web" className="block h-full" onClick={(e) => { e.preventDefault(); handlePortalClick("web", "/web"); }}>
+            <EditorialWebPortal
+              isHovered={hoveredPortal === "web"}
+              isExpanding={activeService === "web"}
+              onHover={() => {
+                if (!isTransitioning) {
+                  setHoveredPortal("web");
+                  playHover();
+                }
+              }}
+              onClick={() => {}}
+            />
+          </Link>
 
-          <CampaignGrowthPortal
-            isHovered={hoveredPortal === "marketing"}
-            isExpanding={activeService === "growth"}
-            onHover={() => {
-              if (!isTransitioning) {
-                setHoveredPortal("marketing");
-                playHover();
-              }
-            }}
-            onClick={() => handlePortalClick("marketing", "/marketing")}
-          />
+          <Link href="/marketing" className="block h-full" onClick={(e) => { e.preventDefault(); handlePortalClick("marketing", "/marketing"); }}>
+            <CampaignGrowthPortal
+              isHovered={hoveredPortal === "marketing"}
+              isExpanding={activeService === "growth"}
+              onHover={() => {
+                if (!isTransitioning) {
+                  setHoveredPortal("marketing");
+                  playHover();
+                }
+              }}
+              onClick={() => {}}
+            />
+          </Link>
 
-          <SystemAIPortal
-            isHovered={hoveredPortal === "ai"}
-            isExpanding={activeService === "ai"}
-            onHover={() => {
-              if (!isTransitioning) {
-                setHoveredPortal("ai");
-                playHover();
-              }
-            }}
-            onClick={() => handlePortalClick("ai", "/ai")}
-          />
+          <Link href="/ai" className="block h-full" onClick={(e) => { e.preventDefault(); handlePortalClick("ai", "/ai"); }}>
+            <SystemAIPortal
+              isHovered={hoveredPortal === "ai"}
+              isExpanding={activeService === "ai"}
+              onHover={() => {
+                if (!isTransitioning) {
+                  setHoveredPortal("ai");
+                  playHover();
+                }
+              }}
+              onClick={() => {}}
+            />
+          </Link>
 
-          <ProductAppPortal
-            isHovered={hoveredPortal === "apps"}
-            isExpanding={activeService === "apps"}
-            onHover={() => {
-              if (!isTransitioning) {
-                setHoveredPortal("apps");
-                playHover();
-              }
-            }}
-            onClick={() => handlePortalClick("apps", "/apps")}
-          />
+          <Link href="/apps" className="block h-full" onClick={(e) => { e.preventDefault(); handlePortalClick("apps", "/apps"); }}>
+            <ProductAppPortal
+              isHovered={hoveredPortal === "apps"}
+              isExpanding={activeService === "apps"}
+              onHover={() => {
+                if (!isTransitioning) {
+                  setHoveredPortal("apps");
+                  playHover();
+                }
+              }}
+              onClick={() => {}}
+            />
+          </Link>
         </div>
       </div>
 
@@ -165,5 +174,8 @@ export const ServiceGateway = () => {
     </div>
   );
 };
+
+
+
 
 
