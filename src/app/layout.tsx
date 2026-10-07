@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | BlazeByte Studio",
   },
   description:
-    "BlazeByte Studio is a premium software development company in Coimbatore, Tamil Nadu. We build high-performance websites, digital marketing systems, AI automation, and custom apps for Indian businesses and international clients.",
+    "BlazeByte Studio offers web development, digital marketing, AI automation and custom apps for businesses in Coimbatore, Tamil Nadu and beyond.",
   keywords: [
     // Primary geo-targeted
     "software development company in coimbatore",
@@ -173,6 +173,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
 
