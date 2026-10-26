@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,7 +8,8 @@ import { useSound } from "@/context/sound-context";
 import { ServiceOrderConfig } from "./service-order-configs";
 import { SITE_CONFIG } from "@/config/studio-data";
 import { 
-  ArrowRight, 
+  ArrowRight,
+  ArrowLeft,
   Check, 
   CheckCircle2, 
   MessageSquare, 
@@ -20,6 +21,7 @@ import {
   Layers,
   Sparkles
 } from "lucide-react";
+import { trackEvent } from "@/lib/tracking";
 
 interface ServiceOrderEngineProps {
   config: ServiceOrderConfig;
@@ -96,6 +98,23 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
   };
 
   const handleFinalSubmit = async () => {
+    if (isSubmitting) return;
+
+    // Client-side validation
+    if (!clientName.trim()) {
+      setErrorMessage("Please enter your Full Name.");
+      return;
+    }
+    if (!clientCompany.trim()) {
+      setErrorMessage("Please enter your Business / Brand Name.");
+      return;
+    }
+    const cleanEmail = clientEmail.trim();
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setErrorMessage("Please enter a valid Email Address.");
+      return;
+    }
+
     playClick();
     setIsSubmitting(true);
     setErrorMessage("");
@@ -108,10 +127,10 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
       serviceType: config.serviceType,
       projectId: ids.projectId,
       invoiceId: ids.invoiceId,
-      clientName,
-      clientCompany,
-      email: clientEmail,
-      whatsapp: clientWhatsapp,
+      clientName: clientName.trim(),
+      clientCompany: clientCompany.trim(),
+      email: cleanEmail,
+      whatsapp: clientWhatsapp.trim(),
       answers,
       selectedFeatures,
       createdAt: new Date().toISOString()
@@ -126,13 +145,18 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
 
       if (res.ok) {
         playSuccess();
+        trackEvent("form_submit", {
+          form_id: `${config.serviceType.toLowerCase()}_order`,
+          service: config.title,
+          project_id: ids.projectId,
+        });
         setScreen("submitted");
       } else {
-        const err = await res.json();
-        setErrorMessage(err.error || "Submission failed. Please continue via WhatsApp.");
+        const err = await res.json().catch(() => ({}));
+        setErrorMessage(err.error || "Submission could not be completed. Please review your details or connect via WhatsApp.");
       }
     } catch {
-      setErrorMessage("Network connection error. You can proceed directly to WhatsApp.");
+      setErrorMessage("Network connection error. Please try again or proceed directly via WhatsApp.");
     } finally {
       setIsSubmitting(false);
     }
@@ -160,7 +184,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
       className="min-h-screen font-sans relative selection:bg-white/20 select-none"
     >
 
-      {/* 01 â€” SERVICE-SPECIFIC ENTRY TRANSITION OVERLAY */}
+      {/* 01 — SERVICE-SPECIFIC ENTRY TRANSITION OVERLAY */}
       {showEntryTransition && (
         <div 
           style={{ backgroundColor: palette.bg, color: palette.text }}
@@ -172,7 +196,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 02 â€” HERO ENTRANCE SCREEN */}
+      {/* 02 — HERO ENTRANCE SCREEN */}
       {screen === "hero" && (
         <div onMouseMove={handleMouseMove} className="relative min-h-[92vh] flex flex-col justify-between py-12 px-4 sm:px-6 lg:px-8 border-b-2 overflow-hidden" style={{ borderColor: palette.border }}>
           
@@ -194,7 +218,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
           {/* Top Technical Badge Marker */}
           <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-current/15 font-mono text-xs">
             <div className="flex items-center gap-2 px-3 py-1.5 border border-current select-none" style={{ backgroundColor: palette.bg }}>
-              <span style={{ color: palette.accent }} className="font-bold">[ â†’ ]</span>
+              <span style={{ color: palette.accent }} className="font-bold">[ → ]</span>
               <span className="font-bold tracking-widest uppercase">{config.badgeText}</span>
             </div>
             <div className="hidden md:flex items-center gap-6 text-[11px] opacity-80">
@@ -262,7 +286,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 03 â€” SERVICE PACKAGES GRID */}
+      {/* 03 — SERVICE PACKAGES GRID */}
       {screen === "hero" && (
         <section id="packages" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 border-b border-current/15">
           <div className="border-b border-current/15 pb-6 space-y-2">
@@ -311,7 +335,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                   style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
                   className="w-full py-3 font-mono font-bold text-xs uppercase transition-colors cursor-pointer text-center"
                 >
-                  SELECT THIS TIER â†’
+                  SELECT THIS TIER →
                 </button>
               </div>
             ))}
@@ -319,7 +343,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </section>
       )}
 
-      {/* 04 â€” CONFIGURATOR STEP SCREEN */}
+      {/* 04 — CONFIGURATOR STEP SCREEN */}
       {screen === "configurator" && (
         <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 font-mono">
           
@@ -349,7 +373,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
               
               <div>
                 <span className="text-xs font-bold uppercase tracking-wider block" style={{ color: palette.accent }}>
-                  {currentQuestion.code} â€” {currentQuestion.title}
+                  {currentQuestion.code} — {currentQuestion.title}
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-heading font-black uppercase mt-1">
                   {currentQuestion.subtitle}
@@ -407,8 +431,9 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
               {currentQuestion.type === "text_input" && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold mb-1">Company / Business Name *</label>
+                    <label htmlFor={`input-${currentQuestion.id}`} className="block text-xs font-bold mb-1">Company / Business Name *</label>
                     <input 
+                      id={`input-${currentQuestion.id}`}
                       type="text"
                       value={answers.businessName || ""}
                       onChange={e => handleOptionSelect("businessName", e.target.value)}
@@ -419,47 +444,153 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
                 </div>
               )}
 
-              {/* Step Navigation Controls */}
-              <div className="flex items-center justify-between pt-6 border-t-2" style={{ borderColor: palette.border }}>
-                <button
-                  onClick={() => setCurrentStepIdx(Math.max(0, currentStepIdx - 1))}
-                  disabled={currentStepIdx === 0}
-                  className={`px-6 py-3 border font-bold text-xs uppercase cursor-pointer ${
-                    currentStepIdx === 0 ? "opacity-30 cursor-not-allowed" : "hover:opacity-80"
-                  }`}
-                  style={{ borderColor: palette.border }}
-                >
-                  â† PREVIOUS
-                </button>
+              {/* Final Step Client Contact Details */}
+              {currentStepIdx === config.questions.length - 1 && (
+                <div className="pt-6 border-t-2 space-y-4" style={{ borderColor: palette.border }}>
+                  <div className="space-y-1">
+                    <span className="text-xs font-bold uppercase tracking-wider block" style={{ color: palette.accent }}>
+                      CLIENT SPECIFICATION & CONTACT DETAILS
+                    </span>
+                    <h3 className="text-base sm:text-lg font-heading font-black uppercase">
+                      Direct Project Point of Contact
+                    </h3>
+                    <p className="text-xs opacity-70">
+                      We will prepare your proposal and invoice based on these verified credentials.
+                    </p>
+                  </div>
 
-                {currentStepIdx < config.questions.length - 1 ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div className="space-y-1.5">
+                      <label htmlFor="clientName" className="block text-xs font-bold uppercase tracking-wider">
+                        Your Full Name <span style={{ color: palette.accent }}>*</span>
+                      </label>
+                      <input 
+                        id="clientName"
+                        type="text" 
+                        placeholder="e.g. Bharath S" 
+                        value={clientName} 
+                        onChange={e => setClientName(e.target.value)} 
+                        className="w-full p-3.5 border-2 text-xs sm:text-sm text-[#17191C] bg-white focus:outline-none focus:ring-2 focus:ring-current transition-all" 
+                        style={{ borderColor: palette.border }} 
+                        autoComplete="name"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="clientCompany" className="block text-xs font-bold uppercase tracking-wider">
+                        Business / Brand Name <span style={{ color: palette.accent }}>*</span>
+                      </label>
+                      <input 
+                        id="clientCompany"
+                        type="text" 
+                        placeholder="e.g. Acme Brand / Studio" 
+                        value={clientCompany} 
+                        onChange={e => setClientCompany(e.target.value)} 
+                        className="w-full p-3.5 border-2 text-xs sm:text-sm text-[#17191C] bg-white focus:outline-none focus:ring-2 focus:ring-current transition-all" 
+                        style={{ borderColor: palette.border }} 
+                        autoComplete="organization"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="clientEmail" className="block text-xs font-bold uppercase tracking-wider">
+                        Your Email Address <span style={{ color: palette.accent }}>*</span>
+                      </label>
+                      <input 
+                        id="clientEmail"
+                        type="email" 
+                        placeholder="e.g. client@company.com" 
+                        value={clientEmail} 
+                        onChange={e => setClientEmail(e.target.value)} 
+                        className="w-full p-3.5 border-2 text-xs sm:text-sm text-[#17191C] bg-white focus:outline-none focus:ring-2 focus:ring-current transition-all" 
+                        style={{ borderColor: palette.border }} 
+                        autoComplete="email"
+                        required
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="clientWhatsapp" className="block text-xs font-bold uppercase tracking-wider">
+                        WhatsApp / Phone <span className="opacity-60 text-[10px] lowercase font-normal">(optional)</span>
+                      </label>
+                      <input 
+                        id="clientWhatsapp"
+                        type="tel" 
+                        placeholder="e.g. +91 98765 43210" 
+                        value={clientWhatsapp} 
+                        onChange={e => setClientWhatsapp(e.target.value)} 
+                        className="w-full p-3.5 border-2 text-xs sm:text-sm text-[#17191C] bg-white focus:outline-none focus:ring-2 focus:ring-current transition-all" 
+                        style={{ borderColor: palette.border }} 
+                        autoComplete="tel"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step Navigation Controls */}
+              <div className="pt-6 border-t-2 space-y-4" style={{ borderColor: palette.border }}>
+                {errorMessage && (
+                  <div className="text-red-500 bg-red-950/20 border-2 border-red-500/60 p-3.5 text-xs font-bold flex items-start gap-2.5">
+                    <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-500" />
+                    <span className="leading-relaxed">{errorMessage}</span>
+                  </div>
+                )}
+
+                <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-4">
                   <button
-                    onClick={() => setCurrentStepIdx(currentStepIdx + 1)}
-                    style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
-                    className="px-8 py-3 font-bold text-xs uppercase cursor-pointer flex items-center gap-2"
+                    type="button"
+                    onClick={() => {
+                      playClick();
+                      setCurrentStepIdx(Math.max(0, currentStepIdx - 1));
+                    }}
+                    disabled={currentStepIdx === 0}
+                    className={`px-6 py-3.5 border-2 font-bold text-xs uppercase cursor-pointer flex items-center justify-center gap-2 transition-all ${
+                      currentStepIdx === 0 ? "opacity-30 cursor-not-allowed" : "hover:opacity-80 active:scale-[0.98]"
+                    }`}
+                    style={{ borderColor: palette.border }}
                   >
-                    <span>NEXT ({currentStepIdx + 2}/{config.questions.length})</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>PREVIOUS</span>
                   </button>
-                ) : (
-                  <div className="space-y-4 w-full sm:w-auto">
-                    <div className="space-y-3">
-  <input type="text" placeholder="Your Full Name *" value={clientName} onChange={e => setClientName(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
-  <input type="text" placeholder="Business / Brand Name *" value={clientCompany} onChange={e => setClientCompany(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
-  <input type="email" placeholder="Your Email Address *" value={clientEmail} onChange={e => setClientEmail(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
-  <input type="tel" placeholder="WhatsApp / Phone (Optional)" value={clientWhatsapp} onChange={e => setClientWhatsapp(e.target.value)} className="w-full p-3 border text-xs text-[#17191C] bg-white" style={{ borderColor: palette.border }} />
-</div>
-{errorMessage && <div className="text-red-600 text-xs font-bold p-3 border border-red-600 bg-red-50 mt-2 mb-2">{errorMessage}</div>}
+
+                  {currentStepIdx < config.questions.length - 1 ? (
                     <button
+                      type="button"
+                      onClick={() => {
+                        playClick();
+                        setCurrentStepIdx(currentStepIdx + 1);
+                      }}
+                      style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
+                      className="px-8 py-3.5 font-bold text-xs uppercase cursor-pointer flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-[0.98]"
+                    >
+                      <span>NEXT ({currentStepIdx + 2}/{config.questions.length})</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
                       onClick={handleFinalSubmit}
                       disabled={isSubmitting}
                       style={{ backgroundColor: palette.accent, color: "#FFFFFF" }}
-                      className="w-full px-8 py-4 font-bold text-xs uppercase tracking-wider cursor-pointer shadow-xl"
+                      className="w-full sm:w-auto px-8 py-4 font-bold text-xs uppercase tracking-wider cursor-pointer shadow-xl flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed transition-transform active:scale-[0.98]"
                     >
-                      {isSubmitting ? "RECORDING SPECIFICATION..." : `SUBMIT ${config.serviceType} SPECIFICATION â†’`}
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white border-t-transparent animate-spin rounded-full" />
+                          <span>RECORDING SPECIFICATION...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>SUBMIT {config.serviceType} SPECIFICATION</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
 
             </div>
@@ -483,7 +614,7 @@ export function ServiceOrderEngine({ config }: ServiceOrderEngineProps) {
         </div>
       )}
 
-      {/* 05 â€” SUBMITTED CONFIRMATION SCREEN */}
+      {/* 05 — SUBMITTED CONFIRMATION SCREEN */}
       {screen === "submitted" && (
         <div className="min-h-[85vh] py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
           <div className="max-w-2xl w-full border-2 p-8 sm:p-12 space-y-8 text-center" style={{ backgroundColor: palette.cardBg, borderColor: palette.border }}>
