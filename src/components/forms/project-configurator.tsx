@@ -14,7 +14,7 @@ export const ProjectConfigurator = () => {
 
   const [step, setStep] = useState<number>(1);
   const [service, setService] = useState<string>("web");
-  const [budget, setBudget] = useState<string>("â‚¹15kâ€“â‚¹30k");
+  const [budget, setBudget] = useState<string>("₹15k–₹30k");
   const [goal, setGoal] = useState<string>("Conversion & Growth");
   const [details, setDetails] = useState<string>("");
   const [clientName, setClientName] = useState<string>("");

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -9,6 +9,7 @@ import { EditorialProjectCard } from "@/components/ui/human-cards";
 import { WorldLoader } from "@/components/ui/world-loaders";
 import { useSound } from "@/context/sound-context";
 import { Globe, ArrowRight } from "lucide-react";
+import { ServiceFaqSection } from "@/components/sections/service-faq";
 
 export default function WebServicePage() {
   const { playHover, playClick } = useSound();
@@ -128,7 +129,38 @@ export default function WebServicePage() {
         </div>
       </section>
 
-      {/* 07 — CTA */}
+            {/* 07 — FAQS */}
+      <ServiceFaqSection
+        title="Web Development FAQs"
+        subtitle="Common questions on web pricing, timelines, technology stack, and source code ownership."
+        theme="light"
+        ctaRoute="/web/order"
+        ctaText="Configure Web Project Scope →"
+        faqs={[
+          {
+            q: "How much does a website development project cost?",
+            a: "Our web packages start at ₹5,000 for Web Starter (landing pages and simple portfolios), ₹15,000 for Web Growth (up to 7 custom pages with lead capture), ₹30,000 for Web Professional (bespoke CMS and complex interactions), and ₹50,000+ for Web Scale platforms.",
+          },
+          {
+            q: "How long does it take to design and launch a website?",
+            a: "Starter landing pages typically launch in 1–2 weeks. Growth and Professional platforms take 2–4 weeks, including UX wireframing, custom design, responsive engineering, and SEO foundations.",
+          },
+          {
+            q: "Do I get full ownership of my website and source code?",
+            a: "Yes. Upon final project sign-off and payment completion, you retain 100% ownership of your website design, assets, and custom code repository.",
+          },
+          {
+            q: "What technology stack do you build websites with?",
+            a: "We build production web systems using Next.js 16 (App Router), React, TypeScript, and Tailwind CSS, deployed on global edge networks (Vercel) for sub-second performance.",
+          },
+          {
+            q: "Do you provide post-launch support and maintenance?",
+            a: "Yes, all projects include post-launch deployment support, SSL setup, and handover documentation, with ongoing maintenance retainer options available.",
+          },
+        ]}
+      />
+
+{/* 07 — CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-2 border-[#17191C] bg-[#17191C] text-[#F4F1EA] p-10 lg:p-14 text-center space-y-6 shadow-[10px_10px_0px_#3457FF]">
           <h2 className="text-3xl sm:text-4xl font-heading font-extrabold">Ready to Build Your Web System?</h2>

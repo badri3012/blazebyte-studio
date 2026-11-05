@@ -283,10 +283,14 @@ async function submitSingleBatch(
         attempts,
         error: `IndexNow returned status ${status}: ${explanation}`,
       };
-    } catch (err: any) {
+    } catch (err: unknown) {
       clearTimeout(timeoutId);
-      const isAbort = err.name === "AbortError";
-      lastError = isAbort ? `Request timed out after ${options.timeoutMs}ms` : (err.message || String(err));
+      const isAbort = err instanceof Error && err.name === "AbortError";
+      lastError = isAbort
+        ? `Request timed out after ${options.timeoutMs}ms`
+        : err instanceof Error
+        ? err.message
+        : String(err);
 
       if (attempts < options.maxRetries) {
         const delay = Math.min(1000 * Math.pow(2, attempts - 1), 4000);

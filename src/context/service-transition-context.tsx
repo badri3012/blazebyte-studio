@@ -283,7 +283,7 @@ export const ServiceTransitionProvider: React.FC<{ children: ReactNode }> = ({ c
 
                 {/* BOTTOM STATUS BAR */}
                 <div className="relative z-10 border-t border-current/20 pt-4 flex items-center justify-between font-mono text-xs opacity-80">
-                  <div>blazebyte.shop â€¢ Full Viewport Route Transition</div>
+                  <div>blazebyte.shop • Full Viewport Route Transition</div>
                   <div className="flex items-center gap-2 font-bold">
                     <span className="w-2.5 h-2.5 rounded-full bg-current animate-ping" />
                     <span>ENTERING {getServiceConfig(activeService).tagline}</span>

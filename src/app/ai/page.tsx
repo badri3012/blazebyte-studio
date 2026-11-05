@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { AI_SERVICE_CONFIG } from "@/config/studio-data";
+import { ServiceFaqSection } from "@/components/sections/service-faq";
 import Image from "next/image";
 import { SystemSpecificationPanel } from "@/components/ui/human-cards";
 import { WorldLoader } from "@/components/ui/world-loaders";
@@ -94,7 +95,38 @@ export default function AIServicePage() {
         </div>
       </section>
 
-      {/* 05 — CTA */}
+            {/* 05 — FAQS */}
+      <ServiceFaqSection
+        title="AI Automation FAQs"
+        subtitle="Essential insights on business automation, data confidentiality, tool integrations, and pricing."
+        theme="teal"
+        ctaRoute="/ai/order"
+        ctaText="Configure AI Workflow Scope →"
+        faqs={[
+          {
+            q: "What kind of AI automation can BlazeByte build for my business?",
+            a: "We design pragmatic business automation: automated customer enquiry triage, WhatsApp and email assistants, document parsing and invoice intelligence, CRM synchronization, and custom RAG knowledge copilots.",
+          },
+          {
+            q: "How much does AI workflow automation cost?",
+            a: "AI Foundation starts at ₹25,000 (workflow audit, automated enquiry triage, basic API links). AI Automation starts at ₹50,000 (multi-step operational workflows, database sync). Custom AI Intelligence copilots start at ₹1,00,000.",
+          },
+          {
+            q: "Does our business data remain secure and confidential?",
+            a: "Absolutely. All client data, workflows, and intellectual property remain private under strict non-disclosure standards. We use secure API endpoints and enterprise data safety controls.",
+          },
+          {
+            q: "Can you integrate AI with our existing software tools?",
+            a: "Yes. We integrate with existing CRMs, WhatsApp Business APIs, PostgreSQL/MySQL databases, email systems, and cloud webhooks.",
+          },
+          {
+            q: "What is the timeline to deploy an AI automation system?",
+            a: "Foundation integrations deploy in 1–2 weeks. Multi-step workflow orchestration and knowledge assistants typically take 3–5 weeks including testing and staff onboarding.",
+          },
+        ]}
+      />
+
+{/* 05 — CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-2 border-[#1B4D3E] bg-[#0D1117] p-12 text-center space-y-6">
           <h2 className="text-3xl sm:text-5xl font-heading font-black text-[#F9F9F8] uppercase">Ready to Automate Business Processes?</h2>

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { APP_SERVICE_CONFIG } from "@/config/studio-data";
+import { ServiceFaqSection } from "@/components/sections/service-faq";
 import { AppScopeBuilder } from "@/components/visualizers/app-scope-builder";
 import { ProductInterfacePanel } from "@/components/ui/human-cards";
 import { WorldLoader } from "@/components/ui/world-loaders";
@@ -77,7 +78,38 @@ export default function AppsServicePage() {
         </div>
       </section>
 
-      {/* 05 — CTA */}
+            {/* 05 — FAQS */}
+      <ServiceFaqSection
+        title="Custom App Development FAQs"
+        subtitle="Answers regarding app architecture, cross-platform mobile delivery, pricing, and database security."
+        theme="stone"
+        ctaRoute="/apps/order"
+        ctaText="Configure Custom App Scope →"
+        faqs={[
+          {
+            q: "What types of custom applications do you develop?",
+            a: "We engineer custom web applications, SaaS platforms, internal operations tools, customer portals, booking engines, and database dashboards tailored to specific business operations.",
+          },
+          {
+            q: "What is the starting price and timeline for custom app development?",
+            a: "Custom application builds start at ₹50,000 based on scope, feature complexity, and database architecture. Delivery timelines typically range from 4 to 8 weeks for an initial production MVP.",
+          },
+          {
+            q: "Can you build mobile apps for iOS and Android?",
+            a: "Yes. We build cross-platform mobile and responsive progressive web applications (PWAs) that deliver fast, fluid app experiences across iOS, Android, and desktop browsers.",
+          },
+          {
+            q: "How is database architecture and security handled?",
+            a: "We engineer relational databases (PostgreSQL/Supabase) with strict Row Level Security (RLS), role-based authentication (RBAC), and bank-grade SSL/TLS encryption.",
+          },
+          {
+            q: "Who owns the code and intellectual property?",
+            a: "You retain 100% intellectual property and full ownership of your custom software repository, database schemas, and documentation upon final delivery.",
+          },
+        ]}
+      />
+
+{/* 05 — CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="border-2 border-[#191C21] bg-[#191C21] text-[#FFFFFF] p-12 text-center space-y-6 shadow-[10px_10px_0px_#2563EB]">
           <h2 className="text-3xl sm:text-5xl font-heading font-black uppercase text-[#FFFFFF]">Have a Custom App Concept?</h2>

@@ -18,11 +18,26 @@ export async function POST(request: Request) {
     const sanitize = (str: string) =>
       str ? String(str).replace(/[<>]/g, "").trim() : "";
 
+    const rawService = sanitize(service || "General Enquiry");
+    const serviceMap: Record<string, string> = {
+      web: "Web Development",
+      marketing: "Digital Marketing",
+      ai: "AI Automation",
+      apps: "Custom Application Development",
+      "custom app": "Custom Application Development",
+      "custom application development": "Custom Application Development",
+      "web development": "Web Development",
+      "digital marketing": "Digital Marketing",
+      "ai automation": "AI Automation",
+      "general enquiry": "General Enquiry",
+    };
+    const normalizedService = serviceMap[rawService.toLowerCase()] || rawService;
+
     const cleanData = {
       name: sanitize(name),
       email: sanitize(email),
       phone: sanitize(phone || ""),
-      service: sanitize(service || "General Enquiry"),
+      service: normalizedService,
       budget: sanitize(budget || "Not Specified"),
       goal: sanitize(goal || "Not Specified"),
       details: sanitize(details || message || ""),

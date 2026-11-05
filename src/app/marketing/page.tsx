@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { ServiceFaqSection } from "@/components/sections/service-faq";
 import Image from "next/image";
 import { MARKETING_SERVICE_CONFIG, CASE_STUDIES } from "@/config/studio-data";
 import { WorldLoader } from "@/components/ui/world-loaders";
@@ -572,7 +573,38 @@ export default function MarketingServicePage() {
         </div>
       </section>
 
-      {/* 08 — SCENE 05 / FINAL CTA: CREATIVE STRATEGIST IN STUDIO AT NIGHT */}
+            {/* 07 — MARKETING FAQS */}
+      <ServiceFaqSection
+        title="Digital Marketing FAQs"
+        subtitle="Transparent answers regarding package deliverables, advertising spend, ROI timelines, and attribution tracking."
+        theme="dark"
+        ctaRoute="/marketing/order"
+        ctaText="Configure Marketing Campaign Scope →"
+        faqs={[
+          {
+            q: "What is included in BlazeByte's Digital Marketing packages?",
+            a: "Our marketing systems include full-funnel growth architecture: local SEO and Google Business dominance, high-conversion Meta and Google ad campaigns, creative video and static ad design, and automated lead capture.",
+          },
+          {
+            q: "Is media ad spend included in the package fee?",
+            a: "No. Package fees cover our strategic management, creative production, ad campaign setup, and ongoing optimization. Direct media ad spend is paid directly to advertising platforms (Google Ads, Meta Ads) using your payment method.",
+          },
+          {
+            q: "How quickly do we see measurable marketing results?",
+            a: "Paid advertising campaigns typically generate qualified leads within the first 7–14 days after launch. Local SEO, organic positioning, and content acquisition scale progressively over 30 to 90 days.",
+          },
+          {
+            q: "How do you track campaign conversions and ROI?",
+            a: "We configure end-to-end attribution via Google Analytics 4, Meta Conversion API, UTM parameter funnels, and real-time WhatsApp enquiry tracking, delivering clear reporting on lead volume and acquisition cost.",
+          },
+          {
+            q: "Do you require long-term binding contracts?",
+            a: "No long-term lock-ins. We operate on transparent monthly retainers and quarterly growth programs based on sustained performance and business results.",
+          },
+        ]}
+      />
+
+{/* 08 — SCENE 05 / FINAL CTA: CREATIVE STRATEGIST IN STUDIO AT NIGHT */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative border-2 border-[#FF5C68] bg-[#101014] p-8 lg:p-14 overflow-hidden shadow-[0_20px_60px_rgba(255,92,104,0.3)]">
           {/* Background Anime Scene Layer */}

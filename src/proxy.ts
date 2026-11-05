@@ -2,14 +2,14 @@
 import type { NextRequest } from "next/server";
 
 /**
- * BLAZEBYTE STUDIO â€” Admin Route Protection Middleware
+ * BLAZEBYTE STUDIO — Admin Route Protection Middleware
  *
  * Protects /admin/* routes from public access.
  * Uses a simple token-based check via an environment variable.
  * In production, replace with NextAuth session cookie checking.
  *
  * Environment variables required:
- *   ADMIN_SECRET_TOKEN â€” set to a strong random secret (e.g., openssl rand -hex 32)
+ *   ADMIN_SECRET_TOKEN — set to a strong random secret (e.g., openssl rand -hex 32)
  *
  * Access by including header: Authorization: Bearer <ADMIN_SECRET_TOKEN>
  * OR by visiting /admin?token=<ADMIN_SECRET_TOKEN> for browser access (sets session cookie).
@@ -59,7 +59,7 @@ export function proxy(request: NextRequest) {
       return response;
     }
 
-    // Deny access â€” return 401 JSON for API calls, redirect to a simple auth page for browser
+    // Deny access — return 401 JSON for API calls, redirect to a simple auth page for browser
     const isApiLike =
       request.headers.get("Accept")?.includes("application/json") ||
       pathname.startsWith("/admin/api");

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import { trackEvent } from "@/lib/tracking";
 export function ShortEnquiryForm() {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
-  const [service, setService] = useState("web");
+  const [service, setService] = useState("Web Development");
   const [req, setReq] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -16,6 +16,7 @@ export function ShortEnquiryForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
     if (!name || !contact) {
       setErrorMsg("Please provide name and contact info.");
       return;
@@ -57,7 +58,7 @@ export function ShortEnquiryForm() {
       <div className="p-6 rounded-xl bg-teal-accent/10 border border-teal-accent/30 text-center space-y-3">
         <CheckCircle2 className="w-6 h-6 text-teal-accent mx-auto" />
         <p className="text-sm font-semibold text-ivory">Enquiry Received</p>
-        <p className="text-xs text-muted-grey">We'll respond within 12 hours.</p>
+        <p className="text-xs text-muted-grey">We&apos;ll respond within 12 hours.</p>
         <Button variant="ghost" size="sm" onClick={() => setSubmitted(false)}>Reset</Button>
       </div>
     );
@@ -97,10 +98,11 @@ export function ShortEnquiryForm() {
           onChange={(e) => setService(e.target.value)}
           className="w-full bg-[#101014] border border-graphite-border rounded px-3 py-2 text-sm text-ivory outline-none focus:border-indigo-accent transition-colors"
         >
-          <option value="web">Web Development</option>
-          <option value="marketing">Digital Marketing</option>
-          <option value="ai">AI Automation</option>
-          <option value="apps">Custom App</option>
+          <option value="Web Development">Web Development</option>
+          <option value="Digital Marketing">Digital Marketing</option>
+          <option value="AI Automation">AI Automation</option>
+          <option value="Custom Application Development">Custom Application Development</option>
+          <option value="General Enquiry">General Enquiry</option>
         </select>
       </div>
       <div>
