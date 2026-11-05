@@ -2,21 +2,60 @@ import { createClient } from "@supabase/supabase-js";
 import { Lead } from "./lead-store";
 import { Invoice, PaymentReceipt } from "./invoice-store";
 // Clean Supabase URL helper
+function extractProjectRef(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    const hostParts = parsed.hostname.split(".");
+    if (hostParts.length >= 3 && hostParts[1] === "supabase" && hostParts[2] === "co") {
+      return hostParts[0];
+    }
+  } catch {}
+  return null;
+}
+
+function extractJwtRef(token: string): string | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length === 3) {
+      const payloadStr = Buffer.from(parts[1], "base64url").toString("utf-8");
+      const payload = JSON.parse(payloadStr);
+      return payload.ref || null;
+    }
+  } catch {}
+  return null;
+}
+
 function getSupabaseUrl(): string {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL || "";
-  const cleaned = url.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
-  if (!cleaned || cleaned.includes("bdmbshsfhpbxypdvmuty") || cleaned === "https://placeholder.supabase.co") {
-    return "https://xsytiwshdqafsixptiqo.supabase.co";
+  const cleaned = url.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "").trim();
+  if (!cleaned.startsWith("https://") && !cleaned.startsWith("http://")) {
+    return "";
   }
   return cleaned;
 }
 
 function getSupabaseKey(): string {
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
-  if (!key || key === "sb_publishable_WQoObh-22GKyojfwS3eBfQ_U5dk3__D") {
-    return "sb_publishable_Jz-Pmd4Bqmc11Z4ilBuVRQ_qMUJKGdb";
+  const url = getSupabaseUrl();
+  const projectRef = extractProjectRef(url);
+
+  // Check service role key first, then fallback to public anon key
+  const candidates = [
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  ].filter((k): k is string => Boolean(k && typeof k === "string" && k.trim().length > 0));
+
+  for (const candidate of candidates) {
+    const trimmed = candidate.trim();
+    // If it's a JWT, verify that its project ref matches the URL project ref (if detectable)
+    const jwtRef = extractJwtRef(trimmed);
+    if (jwtRef && projectRef && jwtRef !== projectRef) {
+      console.warn(`[SUPABASE CONFIG WARNING]: Key project ref '${jwtRef}' does not match URL project ref '${projectRef}'. Skipping candidate.`);
+      continue;
+    }
+    return trimmed;
   }
-  return key;
+
+  return "";
 }
 
 export function isSupabaseConfigured(): boolean {
@@ -26,7 +65,10 @@ export function isSupabaseConfigured(): boolean {
 }
 
 export function getSupabaseClient() {
-  if (!isSupabaseConfigured()) return null;
+  if (!isSupabaseConfigured()) {
+    console.error("[SUPABASE CONFIG ERROR]: Missing or invalid Supabase URL or credentials.");
+    return null;
+  }
   return createClient(getSupabaseUrl(), getSupabaseKey(), {
     auth: { persistSession: false },
   });
